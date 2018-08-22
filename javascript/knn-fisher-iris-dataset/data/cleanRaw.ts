@@ -3,14 +3,15 @@ import * as fs from 'fs';
 // ===========
 // == Setup ==
 // ===========
+const targetDirName = '/raw-cleaned';
 const sourceDirPath = __dirname + '/raw';
-const targetDirPath = __dirname + '/raw-cleaned';
+const targetDirPath = __dirname + targetDirName;
 
 const readOptions = { encoding: 'utf-8' };
 const writeOptions = { encoding: 'utf-8' };
 
 const listOfFiles = fs.readdirSync(__dirname);
-const targetDirectoryExists = !!~listOfFiles.indexOf('raw-cleaned');
+const targetDirectoryExists = !!~listOfFiles.indexOf(targetDirName);
 
 // ==========
 // == Main ==
