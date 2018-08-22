@@ -36,9 +36,7 @@ Since some of the the decimal points were not correct copied initially, the clea
 1. Find non-empty lines that are not headers in each of the raw data files
 2. Ensure that the second character, which is always a decimal point, is the `.` character
 
-The code can be found in [`/data/cleanRaw.ts`](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/data/cleanRaw.ts).
-
-[Cleaned raw data](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/raw-cleaned)
+The cleaned raw data can be found in [/data/raw-cleaned](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/raw-cleaned) and the corresponding code can be found in [/data/cleanRaw.ts](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/data/cleanRaw.ts).
 
 ### Converting to CSV Format
 
@@ -50,9 +48,7 @@ The format to be converted to is as follows:
 sepal_length, sepal_width, petal_length, petal_width, species
 ```
 
-The code used can be found in [`/data/convertRawToCsv.ts`]((https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/data/convertRawToCsv.ts).
-
-[CSV data](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/csv)
+The CSV files can be found in [/data/csv](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/csv) and the corresponding code can be found in [/data/convertRawToCsv.ts](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/data/convertRawToCsv.ts).
 
 
 
