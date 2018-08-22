@@ -4,6 +4,10 @@
 
 * [Introduction](#introduction)
 * [Dataset](#dataset)
+* [Data Preparation](#data-preparation)
+  * [Manual Cleaning](#manual-cleaning)
+  * [Automated Cleaning](#automated-cleaning)
+  * [Converting to CSV Format](#converting-to-csv-format)
 
 ## Introduction
 
