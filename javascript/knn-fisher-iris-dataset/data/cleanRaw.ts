@@ -27,9 +27,9 @@ setosaData = cleanDecimalPoints(setosaData, 'setosa');
 virginicaData = cleanDecimalPoints(virginicaData, 'virginica');
 versicolorData = cleanDecimalPoints(versicolorData, 'versicolor');
 
-fs.writeFileSync(TARGET_PATH + '/setosa', setosaData, writeOptions);
-fs.writeFileSync(TARGET_PATH + '/virginica', virginicaData, writeOptions);
-fs.writeFileSync(TARGET_PATH + '/versicolor', versicolorData, writeOptions);
+fs.writeFileSync(TARGET_PATH + '/setosa.txt', setosaData, writeOptions);
+fs.writeFileSync(TARGET_PATH + '/virginica.txt', virginicaData, writeOptions);
+fs.writeFileSync(TARGET_PATH + '/versicolor.txt', versicolorData, writeOptions);
 
 // ===============
 // == Functions ==
@@ -50,7 +50,7 @@ function cleanDecimalPoints(data: string, species: Species): string {
     const notHeader = !line.match(species);
 
     if (lineNotEmpty && notHeader) {
-      lines[index] = line.replace(/[^\d]/, '.');
+      lines[index] = line.replace(/\s/, '').replace(/[^\d]/, '.');
     }
   });
 
