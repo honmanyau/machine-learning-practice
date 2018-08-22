@@ -6,7 +6,7 @@ sepal-length-versicolor
 6.5
 5.7
 6.3
-4.9 
+4.9
 6.6
 5.2
 5.0
