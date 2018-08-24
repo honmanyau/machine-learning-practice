@@ -211,14 +211,21 @@ function select(headers: (string | number)[]): IContainer {
   return newContainer;
 }
 
-function filter<T extends {}>(obj: T): IContainer {
-  const headers = Object.keys(obj);
+/**
+ * This function creates a new dataframe that contains only the data with the
+ * grouping conditions provided.
+ * @param {conditions} headers An object whose keys are headers of the columns
+ *     to be filtered and values are the values to filter with.
+ * @returns {IContainer}
+ */
+function filter<T extends {}>(conditions: T): IContainer {
+  const headers = Object.keys(conditions);
   const newContainer = createContainer(this.data);
 
   newContainer.headers = [...this.headers];
   newContainer.data = newContainer.data.filter((row) => (
     headers.reduce((acc, header) => {
-      const feature = obj[header];
+      const feature = conditions[header];
       const reference = row[this.headers.indexOf(header)];
 
       return acc && feature === reference;

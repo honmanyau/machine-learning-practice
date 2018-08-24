@@ -205,7 +205,7 @@ dataframe.describe(5);
 // └──────────────┴───────┴──────┴──────────┴─────────┴─────┴─────┘
 
 dataframe
-  .groupBy(['Petal Width'], [0.2])
+  .filter(['Petal Width'], [0.2])
   .print();
 // ┌─────────┬──────────────┬─────────────┬──────────────┬─────────────┬──────────┐
 // │ (index) │ Sepal Length │ Sepal Width │ Petal Length │ Petal Width │ Species  │
@@ -220,7 +220,7 @@ dataframe
 // └─────────┴──────────────┴─────────────┴──────────────┴─────────────┴──────────┘
 
 dataframe
-  .groupBy(['Petal Length', 'Petal Width'], [1.4, 0.2])
+  .filter(['Petal Length', 'Petal Width'], [1.4, 0.2])
   .print();
 // ┌─────────┬──────────────┬─────────────┬──────────────┬─────────────┬──────────┐
 // │ (index) │ Sepal Length │ Sepal Width │ Petal Length │ Petal Width │ Species  │
@@ -274,14 +274,13 @@ Creates a summary of the statistics of numeric data in the dataframe, which is p
 
 The object used to construct the table seen in the console.
 
-### `dataframe.groupBy(headers, features)`
+### `dataframe.filter(conditions)`
 
 Creates a new dataframe that contains only the data with the grouping conditions provided.
 
 #### Parameters
 
-* `headers`—an array of column indices or strings that that correspond to those found in `dataframe.headers`
-* `features`—an array of the values of the features in each of the columns specified in headers to to be matched
+* `conditions`—an object whose keys are headers of the columns to be filtered and values are the values to filter with.
 
 #### Return value
 
