@@ -17,6 +17,53 @@ import * as fs from 'fs';
 // setosa.describe();
 // virginica.describe();
 // versicolor.describe();
+const csv = '1,2,3\n4,5,6\n7,8,9\n';
+const dataArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+
+let dataframe;
+
+dataframe = new Container(csv);
+dataframe.print();
+
+// ┌─────────┬───┬───┬───┐
+// │ (index) │ 0 │ 1 │ 2 │
+// ├─────────┼───┼───┼───┤
+// │    0    │ 1 │ 2 │ 3 │
+// │    1    │ 4 │ 5 │ 6 │
+// │    2    │ 7 │ 8 │ 9 │
+// └─────────┴───┴───┴───┘
+
+dataframe = createContainer(csv);
+dataframe.print();
+
+// ┌─────────┬───┬───┬───┐
+// │ (index) │ 0 │ 1 │ 2 │
+// ├─────────┼───┼───┼───┤
+// │    0    │ 1 │ 2 │ 3 │
+// │    1    │ 4 │ 5 │ 6 │
+// │    2    │ 7 │ 8 │ 9 │
+// └─────────┴───┴───┴───┘
+
+dataframe = new Container(dataArray);
+dataframe.print();
+
+// ┌─────────┬───┬───┬───┐
+// │ (index) │ 0 │ 1 │ 2 │
+// ├─────────┼───┼───┼───┤
+// │    0    │ 1 │ 2 │ 3 │
+// │    1    │ 4 │ 5 │ 6 │
+// │    2    │ 7 │ 8 │ 9 │
+// └─────────┴───┴───┴───┘
+
+dataframe = createContainer(dataArray);
+dataframe.print();
+// ┌─────────┬───┬───┬───┐
+// │ (index) │ 0 │ 1 │ 2 │
+// ├─────────┼───┼───┼───┤
+// │    0    │ 1 │ 2 │ 3 │
+// │    1    │ 4 │ 5 │ 6 │
+// │    2    │ 7 │ 8 │ 9 │
+// └─────────┴───┴───┴───┘
 
 // =============
 // == Exports ==
@@ -136,6 +183,7 @@ function readData(input: string | any[][]): any[][] {
   }
 
   this.data = data;
+  this.headers = this.data[0].map((value, index) => index);
 
   return data;
 }
@@ -189,15 +237,15 @@ function tail(n: number = 5): void {
 }
 
 /**
- * This function selects the column with the column heading(s) or index/indicies
+ * This function selects the column with the column heading(s) or index/indices
  * given and returns a data object containing those columns.
- * @param {string[]|number[]} headers An array of column headings or indicies.
+ * @param {string[]|number[]} headers An array of column headings or indices.
  * @returns {{}} A data container object with only the selected columns.
  */
 function select(headers: (string | number)[]): IContainer {
-  const indicies = convertToIndicies(headers, this.headers);
+  const indices = convertToIndices(headers, this.headers);
   const newContainer = createContainer(this.data);
-  const filterByIndex = (value, index) => ~indicies.indexOf(index);
+  const filterByIndex = (value, index) => ~indices.indexOf(index);
   const newHeaders = this.headers.filter(filterByIndex);
   const newData = newContainer.data.map((row) => row.filter(filterByIndex));
 
@@ -216,13 +264,13 @@ function select(headers: (string | number)[]): IContainer {
  * @returns {IContainer}
  */
 function groupBy(headers: (string | number)[], features: any[]): IContainer {
-  const indicies = convertToIndicies(headers, this.headers);
+  const indices = convertToIndices(headers, this.headers);
   const newContainer = createContainer(this.data);
 
   newContainer.headers = [...this.headers];
   newContainer.data = newContainer.data.filter((row) => (
     features.reduce((acc, feature, index) => {
-      const reference = row[indicies[index]];
+      const reference = row[indices[index]];
 
       return acc && feature === reference;
     }, true)
@@ -354,25 +402,25 @@ function describe(dp: number = 2): {} {
 // ======================
 /**
  * This function attempts to convert an array of values into an array of
- * header indicies.
+ * header indices.
  * @param {(string | number)[]} headers An array of values to be converted to
- *     header indicies.
+ *     header indices.
  * @param {(string | number)[]} reference An array of values to be converted to
- *     header indicies.
- * @returns {number[]} An array of header indicies
+ *     header indices.
+ * @returns {number[]} An array of header indices
  */
-function convertToIndicies(
+function convertToIndices(
   headers: (string | number)[], reference: (string | number)[]
 ): number[] {
-  const indicies = headers.map((header) => (
+  const indices = headers.map((header) => (
     typeof header === 'number' && Number.isInteger(header) ?
       header :
       reference.indexOf(header)
   ));
 
-  if (indicies.reduce((acc, index) => acc || !reference[index], false)) {
+  if (indices.reduce((acc, index) => acc || !reference[index], false)) {
     throw new Error(`Invalid index or header found in ${headers}.`);
   };
 
-  return indicies;
+  return indices;
 }
