@@ -9,7 +9,6 @@
 // iris.headers = [
 //   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
 // ];
-//
 // const setosa = iris.groupBy(['Species'], ['setosa']);
 // const virginica = iris.groupBy(['Species'], ['virginica']);
 // const versicolor = iris.groupBy(['Species'], ['versicolor']);
@@ -29,12 +28,14 @@ export { Container, createContainer };
 interface IContainer {
   headers: string[],
   data: any[][],
-  describe: (dp?: number) => {},
+  describe: (dp?: number | false) => {},
   groupBy: (headers: (string | number)[], features: any[]) => IContainer,
   head: (rows?: number) => void,
   print: (start?: number, end?: number) => void,
   readData: (input: string | any[][]) => void,
   select: (names: (string | number)[]) => IContainer,
+  standardise: () => IContainer,
+  standardize: () => IContainer,
   tail: (rows?: number) => void,
   transpose: () => {}
 };
@@ -61,6 +62,8 @@ function Container(input: string | any[][] = null): void {
   this.print = print;
   this.readData = readData;
   this.select = select;
+  this.standardise = standardise;
+  this.standardize = standardise;
   this.tail = tail;
   this.transpose = transpose;
 
@@ -75,18 +78,22 @@ function Container(input: string | any[][] = null): void {
  *     created using {@code JSON.stringify} and {@code JSON.parse} and the
  *     resultant array assigned to {@code this.data}; if no argument is
  *     passed in, an "empty" container is created.
- * @returns {{}} A data container object.
+ * @returns {IContainer} A dataframe object.
  */
 function createContainer(input: string | any[][] = null): IContainer {
+  const standardize = standardise;
   const container: IContainer = {
     headers: null,
     data: null,
+    // Methods
     describe,
     groupBy,
     head,
     print,
     readData,
     select,
+    standardise,
+    standardize,
     tail,
     transpose
   };
@@ -260,14 +267,16 @@ function transpose(): {} {
  * is printed to the console as a table and returned as a object for further
  * manipulation. The metrics reported are count, mean, variance, standard
  * deviation, minimum value, and maximum value.
- * @param {number} dp The number of decimal places to be rounded to internally
+ * @param {number | false} dp The number of decimal places to be rounded to internally
  *     using {@code Number.prototype.toFixed()}. The output observed in the
  *     console may be less than the number of decimal places specified since the
  *     string produced by {@code toFixed()} is converted back to a number using
- *     {@code }Number()}.
+ *     {@code }Number()}. If {@code false} is given, no rounding will occur.
  * @return {{}}
  */
-function describe(dp: number = 2): {} {
+function describe(dp: number | false = 4): {} {
+  // Columns that are not numeric will be undefined, which is used as a flag
+  // below to avoid data processing.
   const summary = this.data[0].map((value) => {
     if (typeof value === 'number') {
       return {
@@ -319,7 +328,7 @@ function describe(dp: number = 2): {} {
         const feature = row[featureIndex];
         const { mean, min, max } = column;
 
-        column.squaredDeviationFromMean = Math.pow(feature - mean, 2);
+        column.squaredDeviationFromMean += Math.pow(feature - mean, 2);
         column.min = feature < min ? feature : min;
         column.max = feature > max ? feature : max;
       }
@@ -342,7 +351,10 @@ function describe(dp: number = 2): {} {
       delete column.squaredDeviationFromMean;
 
       Object.keys(column).forEach((key) => {
-        column[key] = Number(column[key].toFixed(dp));
+        const feature = column[key];
+        const round = (dp || dp === 0) && Number.isInteger(dp)
+
+        column[key] = round ? Number(feature.toFixed(dp)) : feature;
       });
 
       summaryObject[header] = column;
@@ -352,6 +364,28 @@ function describe(dp: number = 2): {} {
   console.table(summaryObject);
 
   return summaryObject;
+}
+
+/**
+ * This function creates a new dataframe object with features scaled to have
+ * close to (as close as possible) zero mean and unit variance.
+ * @returns {IContainer} A dataframe object with standardised columns.
+ */
+function standardise(): IContainer {
+  const stats = disableConsole('table', () => this.describe(false));
+  const selection = this.select(Object.keys(stats));
+
+  selection.data.forEach((row, rowIndex) => {
+    row.forEach((feature, featureIndex) => {
+      const header = selection.headers[featureIndex];
+      const mean = stats[header].mean;
+      const sd = stats[header].sd;
+
+      selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
+    });
+  });
+
+  return selection;
 }
 
 // ======================
@@ -380,4 +414,31 @@ function convertToIndices(
   };
 
   return indices;
+}
+
+/**
+ * Temporarily disable a particular console method for a function.
+ */
+function disableConsole(type: string, callback: () => any): any {
+  const ref = console[type];
+
+  if (!ref) {
+    throw new Error(`console.${type} is not a valid method!`);
+  }
+
+  Object.defineProperty(console, type, {
+    get: function () {
+      return () => {};
+    }
+  });
+
+  const returnValue = callback();
+
+  Object.defineProperty(console, type, {
+    get: function () {
+      return ref;
+    }
+  });
+
+  return returnValue;
 }
