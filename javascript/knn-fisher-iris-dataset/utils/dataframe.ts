@@ -1,8 +1,8 @@
-import * as fs from 'fs';
-
 // =============
 // == Example ==
 // =============
+// import * as fs from 'fs';
+//
 // const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
 // const iris = createContainer(csv);
 //
@@ -80,7 +80,7 @@ interface IContainer {
   groupBy: (headers: (string | number)[], features: any[]) => IContainer,
   head: (rows?: number) => void,
   print: () => void,
-  readData: (input: string | any[][]) => any[][],
+  readData: (input: string | any[][]) => void,
   select: (names: (string | number)[]) => IContainer,
   tail: (rows?: number) => void,
   transpose: () => {}
@@ -152,10 +152,8 @@ function createContainer(input: string | any[][] = null): IContainer {
  *     created using {@code JSON.stringify} and {@code JSON.parse} and the
  *     resultant array assigned to {@code this.data}; if no argument is
  *     passed in, an "empty" container is created.
- * @returns {any[][]} An array of arrays where each subsrray where each subarray
- *     corresponds to a column in the data
  */
-function readData(input: string | any[][]): any[][] {
+function readData(input: string | any[][]): void {
   let data: any[][];
 
   if (typeof input === 'string') {
@@ -182,8 +180,6 @@ function readData(input: string | any[][]): any[][] {
 
   this.data = data;
   this.headers = this.data[0].map((value, index) => index);
-
-  return data;
 }
 
 /**
