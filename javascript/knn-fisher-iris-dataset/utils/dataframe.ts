@@ -1,6 +1,6 @@
-// =============
-// == Example ==
-// =============
+// ==============
+// == Examples ==
+// ==============
 // import * as fs from 'fs';
 //
 // const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
@@ -17,53 +17,6 @@
 // setosa.describe();
 // virginica.describe();
 // versicolor.describe();
-const csv = '1,2,3\n4,5,6\n7,8,9\n';
-const dataArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-
-let dataframe;
-
-dataframe = new Container(csv);
-dataframe.print();
-
-// ┌─────────┬───┬───┬───┐
-// │ (index) │ 0 │ 1 │ 2 │
-// ├─────────┼───┼───┼───┤
-// │    0    │ 1 │ 2 │ 3 │
-// │    1    │ 4 │ 5 │ 6 │
-// │    2    │ 7 │ 8 │ 9 │
-// └─────────┴───┴───┴───┘
-
-dataframe = createContainer(csv);
-dataframe.print();
-
-// ┌─────────┬───┬───┬───┐
-// │ (index) │ 0 │ 1 │ 2 │
-// ├─────────┼───┼───┼───┤
-// │    0    │ 1 │ 2 │ 3 │
-// │    1    │ 4 │ 5 │ 6 │
-// │    2    │ 7 │ 8 │ 9 │
-// └─────────┴───┴───┴───┘
-
-dataframe = new Container(dataArray);
-dataframe.print();
-
-// ┌─────────┬───┬───┬───┐
-// │ (index) │ 0 │ 1 │ 2 │
-// ├─────────┼───┼───┼───┤
-// │    0    │ 1 │ 2 │ 3 │
-// │    1    │ 4 │ 5 │ 6 │
-// │    2    │ 7 │ 8 │ 9 │
-// └─────────┴───┴───┴───┘
-
-dataframe = createContainer(dataArray);
-dataframe.print();
-// ┌─────────┬───┬───┬───┐
-// │ (index) │ 0 │ 1 │ 2 │
-// ├─────────┼───┼───┼───┤
-// │    0    │ 1 │ 2 │ 3 │
-// │    1    │ 4 │ 5 │ 6 │
-// │    2    │ 7 │ 8 │ 9 │
-// └─────────┴───┴───┴───┘
 
 // =============
 // == Exports ==
