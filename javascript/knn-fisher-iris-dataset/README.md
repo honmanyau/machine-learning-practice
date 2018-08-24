@@ -67,7 +67,7 @@ A utility that produces a data container with methods for visualising (in the co
 
 ## Documentation for dataframe.ts
 
-The dataframe utility is a crude reinvention of some of the functionalities commonly found in other data processing packages. **There are currently little to no error-checking facilities in these methods**.
+The dataframe utility is a crude reinvention of some of the functionalities commonly found in other data processing packages. **There are currently little to no error-checking facilities in these methods, and no library is used to mitigate floating point errors.**
 
 ### Usage
 
@@ -194,16 +194,6 @@ dataframe.tail();
 // │    4    │     4.9      │     3.1     │     1.5      │     0.1     │ 'setosa' │
 // └─────────┴──────────────┴─────────────┴──────────────┴─────────────┴──────────┘
 
-dataframe.describe();
-// ┌──────────────┬───────┬──────┬──────────┬──────┬─────┬─────┐
-// │   (index)    │ count │ mean │ variance │  sd  │ min │ max │
-// ├──────────────┼───────┼──────┼──────────┼──────┼─────┼─────┤
-// │ Sepal Length │  10   │ 4.86 │    0     │ 0.01 │ 4.4 │ 5.4 │
-// │ Sepal Width  │  10   │ 3.31 │    0     │ 0.07 │ 2.9 │ 3.9 │
-// │ Petal Length │  10   │ 1.45 │    0     │ 0.02 │ 1.3 │ 1.7 │
-// │ Petal Width  │  10   │ 0.22 │    0     │ 0.04 │ 0.1 │ 0.4 │
-// └──────────────┴───────┴──────┴──────────┴──────┴─────┴─────┘
-
 dataframe.describe(5);
 // ┌──────────────┬───────┬──────┬──────────┬─────────┬─────┬─────┐
 // │   (index)    │ count │ mean │ variance │   sd    │ min │ max │
@@ -280,7 +270,7 @@ Creates a summary of the statistics of numeric data in the dataframe, which is p
 
 ##### Parameters
 
-* `dp` (optional, default: `2`)—the number of decimal places to be rounded to internally using `Number.prototype.toFixed()`. The output observed in the console may be less than the number of decimal places specified since the string produced by `toFixed()` is converted back to a number using `Number()`
+* `dp` (optional, default: `4`)—the number of decimal places to be rounded to internally using `Number.prototype.toFixed()`. The output observed in the console may be less than the number of decimal places specified since the string produced by `toFixed()` is converted back to a number using `Number()`. No rounding will occur when the argument is `false`.
 
 ##### Return value
 
