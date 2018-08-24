@@ -314,6 +314,14 @@ Processes a CSV string or clones an array of arrays and assigns the result to `d
 
 * `input`—a CSV file that is read into memory as a string or an array of arrays, where each subarray corresponds to a row in the CSV data.
 
+#### `dataframe.standardise()`\/`dataframe.standardize()`
+
+Creates a new dataframe object with features scaled to have (as close as possible) zero mean and unit variance.
+
+##### Return value
+
+A new dataframe object with scaled data.
+
 #### `dataframe.transpose()`
 
 Creates an array of features for each of the columns in `dataframe.data`.
