@@ -32,7 +32,7 @@ interface IContainer {
   describe: (dp?: number) => {},
   groupBy: (headers: (string | number)[], features: any[]) => IContainer,
   head: (rows?: number) => void,
-  print: () => void,
+  print: (start?: number, end?: number) => void,
   readData: (input: string | any[][]) => void,
   select: (names: (string | number)[]) => IContainer,
   tail: (rows?: number) => void,
