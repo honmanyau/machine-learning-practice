@@ -1,21 +1,21 @@
 // ==============
 // == Examples ==
 // ==============
-// import * as fs from 'fs';
-//
-// const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
-// const iris = createContainer(csv);
-//
-// iris.headers = [
-//   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
-// ];
-// const setosa = iris.groupBy(['Species'], ['setosa']);
-// const virginica = iris.groupBy(['Species'], ['virginica']);
-// const versicolor = iris.groupBy(['Species'], ['versicolor']);
-//
-// setosa.describe();
-// virginica.describe();
-// versicolor.describe();
+import * as fs from 'fs';
+
+const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
+const iris = createContainer(csv);
+
+iris.headers = [
+  'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
+];
+const setosa = iris.filter({ Species: 'setosa' });
+const virginica = iris.filter({ Species: 'virginica' });
+const versicolor = iris.filter({ Species: 'versicolor' });
+
+setosa.describe();
+virginica.describe();
+versicolor.describe();
 
 // =============
 // == Exports ==
@@ -29,7 +29,7 @@ interface IContainer {
   headers: string[],
   data: any[][],
   describe: (dp?: number | false) => {},
-  groupBy: (headers: (string | number)[], features: any[]) => IContainer,
+  filter: <T extends {}>(filters: T) => IContainer,
   head: (rows?: number) => void,
   print: (start?: number, end?: number) => void,
   readData: (input: string | any[][]) => void,
@@ -57,7 +57,7 @@ function Container(input: string | any[][] = null): void {
   this.data = null;
   // Methods
   this.describe = describe;
-  this.groupBy = groupBy;
+  this.filter = filter;
   this.head = head;
   this.print = print;
   this.readData = readData;
@@ -87,7 +87,7 @@ function createContainer(input: string | any[][] = null): IContainer {
     data: null,
     // Methods
     describe,
-    groupBy,
+    filter,
     head,
     print,
     readData,
@@ -211,23 +211,15 @@ function select(headers: (string | number)[]): IContainer {
   return newContainer;
 }
 
-/**
- * This function creates a new dataframe that contains only the data with the
- * grouping conditions provided.
- * @param {string[]} headers The column indices or strings that that correspond
- *     to those found in {@code dataframe.headers}.
- * @param {string[]} features The values of the features in each of the columns
- *     specified in headers to to be matched
- * @returns {IContainer}
- */
-function groupBy(headers: (string | number)[], features: any[]): IContainer {
-  const indices = convertToIndices(headers, this.headers);
+function filter<T extends {}>(obj: T): IContainer {
+  const headers = Object.keys(obj);
   const newContainer = createContainer(this.data);
 
   newContainer.headers = [...this.headers];
   newContainer.data = newContainer.data.filter((row) => (
-    features.reduce((acc, feature, index) => {
-      const reference = row[indices[index]];
+    headers.reduce((acc, header) => {
+      const feature = obj[header];
+      const reference = row[this.headers.indexOf(header)];
 
       return acc && feature === reference;
     }, true)
