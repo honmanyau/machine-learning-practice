@@ -78,11 +78,11 @@ interface IContainer {
   data: any[][],
   describe: (dp?: number) => {},
   groupBy: (headers: (string | number)[], features: any[]) => IContainer,
-  head: () => void,
+  head: (rows?: number) => void,
   print: () => void,
   readData: (input: string | any[][]) => any[][],
   select: (names: (string | number)[]) => IContainer,
-  tail: () => void,
+  tail: (rows?: number) => void,
   transpose: () => {}
 };
 
@@ -144,16 +144,14 @@ function createContainer(input: string | any[][] = null): IContainer {
 }
 
 /**
- * This function reads a CSV file and converts it into an array of arrays, where
- * each subarray corresponds to a column in the data and assign the array to
- * the {@code data} property of `this`.
+ * This function processes a CSV string or clones an array of arrays and assigns
+ * the result to `this.data`.
  * @param {string} input The CSV file read into memory as a string. When
  *     the argument is a string, the {@code readCsv} method is used to attempt
  *     to parse the data; if the data is not a string, a deep copy will be
  *     created using {@code JSON.stringify} and {@code JSON.parse} and the
  *     resultant array assigned to {@code this.data}; if no argument is
  *     passed in, an "empty" container is created.
- * @returns {{}} A data container object.
  * @returns {any[][]} An array of arrays where each subsrray where each subarray
  *     corresponds to a column in the data
  */
@@ -189,11 +187,13 @@ function readData(input: string | any[][]): any[][] {
 }
 
 /**
- * This function prints the entire dataset to the console formatted as a table.
- * @param {number} start The zero-based index of the row in the dataset to
- *     be parsed as the first row of the table (not including headers).
- * @param {number} end The zero-based index of the row in the dataset that
- *     the parsing will terminate at (not inclusive).
+ * This function prints the specified number of row of the data in
+ * {@code dataframe.data} to the console. Calling the function without providing
+ * any arguments prints all rows.
+ * @param {number} start The zero-based index of the entry in
+ *     {@code dataframe.data} to begin printing with.
+ * @param {number} end The zero-based index of the entry in
+ *     {@code dataframe.data} to terminate printing with.
  */
 function print(start: number = 0, end?: number): void {
   const len = arguments.length;
@@ -219,21 +219,21 @@ function print(start: number = 0, end?: number): void {
 }
 
 /**
- * This function is a restricted version of {@code print} that always start with
- * the 0th row in the dataset.
- * @param {number} n The number of rows to be printed.
+ * This function prints data starting from the first entry in
+ * {@code }dataframe.data} to the console.
+ * @param {number} rows The number of rows to be printed.
  */
-function head(n: number = 5): void {
-  print.bind(this, 0)(n);
+function head(rows: number = 5): void {
+  print.bind(this, 0)(rows);
 }
 
 /**
- * This function is a restricted version of {@code print} that start at the
- * {@code l - n}th row of the dataset, where l is the total number of records.
- * @param {number} n The number of rows to be printed.
+ * This function prints the last few rows of, and always ending with the last
+ * row in, {@code dataframe.data} to the console.
+ * @param {number} rows The number of rows to be printed.
  */
-function tail(n: number = 5): void {
-  print.bind(this)(this.data.length - n);
+function tail(rows: number = 5): void {
+  print.bind(this)(this.data.length - rows);
 }
 
 /**
@@ -256,11 +256,12 @@ function select(headers: (string | number)[]): IContainer {
 }
 
 /**
- * This function returns a new container containing all records that match the
- * given header and feature.
- * @param {string[]} headers The headers of the columns to be used.
- * @param {string[]} features The features belonging to the corresponding
- *     column to be matched.
+ * This function creates a new dataframe that contains only the data with the
+ * grouping conditions provided.
+ * @param {string[]} headers The column indices or strings that that correspond
+ *     to those found in {@code dataframe.headers}.
+ * @param {string[]} features The values of the features in each of the columns
+ *     specified in headers to to be matched
  * @returns {IContainer}
  */
 function groupBy(headers: (string | number)[], features: any[]): IContainer {
@@ -280,10 +281,11 @@ function groupBy(headers: (string | number)[], features: any[]): IContainer {
 }
 
 /**
- * This function returns an array of features for each of the columns in the
- * data.
- * @returns {{}} An object in which each property corresponds to a header and
- *     its values is an array of features.
+ * This function returns an array of features for each of the columns in
+ * {@code this.data}.
+ * @returns {{}} An object of which each property corresponds to a header in
+ *     {@code dataframe.headers} and its values is an array of the corresponding
+ *     values in {@code dataframe.data}.
  */
 function transpose(): {} {
   const transposed = {};
@@ -305,9 +307,15 @@ function transpose(): {} {
 }
 
 /**
- * Create a statistics summary of the data in a container, log the result to the
- * console as a table and return the summary as an object.
- * @param {number} dp Decimal points the data to be rounded off to.
+ * Creates a summary of the statistics of numeric data in the dataframe, which
+ * is printed to the console as a table and returned as a object for further
+ * manipulation. The metrics reported are count, mean, variance, standard
+ * deviation, minimum value, and maximum value.
+ * @param {number} dp The number of decimal places to be rounded to internally
+ *     using {@code Number.prototype.toFixed()}. The output observed in the
+ *     console may be less than the number of decimal places specified since the
+ *     string produced by {@code toFixed()} is converted back to a number using
+ *     {@code }Number()}.
  * @return {{}}
  */
 function describe(dp: number = 2): {} {
