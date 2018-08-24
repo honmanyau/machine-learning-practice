@@ -1,21 +1,21 @@
 // ==============
 // == Examples ==
 // ==============
-import * as fs from 'fs';
-
-const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
-const iris = createContainer(csv);
-
-iris.headers = [
-  'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
-];
-const setosa = iris.filter({ Species: 'setosa' });
-const virginica = iris.filter({ Species: 'virginica' });
-const versicolor = iris.filter({ Species: 'versicolor' });
-
-setosa.describe();
-virginica.describe();
-versicolor.describe();
+// import * as fs from 'fs';
+//
+// const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
+// const iris = createContainer(csv);
+//
+// iris.headers = [
+//   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
+// ];
+// const setosa = iris.filter({ Species: 'setosa' });
+// const virginica = iris.filter({ Species: 'virginica' });
+// const versicolor = iris.filter({ Species: 'versicolor' });
+//
+// setosa.describe();
+// virginica.describe();
+// versicolor.describe();
 
 // =============
 // == Exports ==
