@@ -295,7 +295,7 @@ Prints data starting from the first entry in `dataframe.data` to the console.
 
 * `rows` (optional, default: `5`)—the number of rows to be printed.
 
-### `dataset.print([*start* [*, end*]])`
+### `dataframe.print([*start* [*, end*]])`
 
 Prints the specified number of row of the data in `dataframe.data` to the console. Calling the function without providing
 
