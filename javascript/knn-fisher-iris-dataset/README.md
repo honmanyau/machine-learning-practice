@@ -256,9 +256,7 @@ dataframe
 // └─────────┴──────────────┴──────────────┴──────────┘
 ```
 
-### API
-
-#### `dataframe.describe([*dp*])`
+### `dataframe.describe([*dp*])`
 
 Creates a summary of the statistics of numeric data in the dataframe, which is printed to the console as a table and returned as a object for further manipulation. The metrics reported are:
 * Count
@@ -268,73 +266,73 @@ Creates a summary of the statistics of numeric data in the dataframe, which is p
 * Minimum value
 * Maximum value
 
-##### Parameters
+#### Parameters
 
 * `dp` (optional, default: `4`)—the number of decimal places to be rounded to internally using `Number.prototype.toFixed()`. The output observed in the console may be less than the number of decimal places specified since the string produced by `toFixed()` is converted back to a number using `Number()`. No rounding will occur when the argument is `false`.
 
-##### Return value
+#### Return value
 
 The object used to construct the table seen in the console.
 
-#### `dataframe.groupBy(headers, features)`
+### `dataframe.groupBy(headers, features)`
 
 Creates a new dataframe that contains only the data with the grouping conditions provided.
 
-##### Parameters
+#### Parameters
 
 * `headers`—an array of column indices or strings that that correspond to those found in `dataframe.headers`
 * `features`—an array of the values of the features in each of the columns specified in headers to to be matched
 
-##### Return value
+#### Return value
 
 A new dataframe containing rows that match the filters provided.
 
-#### `dataframe.head([*rows*])`
+### `dataframe.head([*rows*])`
 
 Prints data starting from the first entry in `dataframe.data` to the console.
 
-##### Parameters
+#### Parameters
 
 * `rows` (optional, default: `5`)—the number of rows to be printed.
 
-#### `dataset.print([*start* [*, end*]])`
+### `dataset.print([*start* [*, end*]])`
 
 Prints the specified number of row of the data in `dataframe.data` to the console. Calling the function without providing
 
-##### Parameters
+#### Parameters
 
 * `start` (optional, default: `0`)—zero-based index of the entry in `dataframe.data` to begin printing with.
 * `end` (optional)—zero-based index of the entry in `dataframe.data` to terminate printing with.
 
-#### `dataframe.readData(input)`
+### `dataframe.readData(input)`
 
 Processes a CSV string or clones an array of arrays and assigns the result to `dataframe.data`.
 
-##### Parameters
+#### Parameters
 
 * `input`—a CSV file that is read into memory as a string or an array of arrays, where each subarray corresponds to a row in the CSV data.
 
-#### `dataframe.standardise()`\/`dataframe.standardize()`
+### `dataframe.standardise()`\/`dataframe.standardize()`
 
 Creates a new dataframe object with features scaled to have (as close as possible) zero mean and unit variance.
 
-##### Return value
+#### Return value
 
 A new dataframe object with scaled data.
 
-#### `dataframe.transpose()`
+### `dataframe.transpose()`
 
 Creates an array of features for each of the columns in `dataframe.data`.
 
-##### Return value
+#### Return value
 
 An object of which each property corresponds to a header in `dataframe.headers` and its values is an array of the corresponding values in `dataframe.data`.
 
-#### `dataframe.tail(rows)`
+### `dataframe.tail(rows)`
 
 Prints the last few rows of, and always ending with the last row in, `dataframe.data` to the console.
 
-##### Parameters
+#### Parameters
 
 * `rows` (optional, default: `5`)—the number of rows to be printed.
 
