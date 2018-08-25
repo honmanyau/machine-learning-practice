@@ -12,7 +12,7 @@
 // const setosa = iris.filter({ Species: 'setosa' });
 // const virginica = iris.filter({ Species: 'virginica' });
 // const versicolor = iris.filter({ Species: 'versicolor' });
-//
+
 // setosa.describe();
 // virginica.describe();
 // versicolor.describe();
@@ -367,7 +367,10 @@ function describe(dp: number | false = 4): {} {
 
 /**
  * This function creates a new dataframe object with features scaled to have
- * close to (as close as possible) zero mean and unit variance.
+ * close to (as close as possible) zero mean and unit variance. The standardised
+ * value is caculated using the formula {@code x' = (x - μ) / σ}, Where
+ * {@code x'} is the scaled value, {@code x} the initial value, {@code μ} the
+ * sample mean, and {@code σ} the sample standard deviation.
  * @returns {IContainer} A dataframe object with standardised columns.
  */
 function standardise(): IContainer {

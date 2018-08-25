@@ -8,6 +8,7 @@
   * [Manual Cleaning](#manual-cleaning)
   * [Automated Cleaning](#automated-cleaning)
   * [Converting to CSV Format](#converting-to-csv-format)
+* [Data Integrity](#data-integrity)
 * [Documentation for dataframe.ts](#documentation-for-dataframets)
 
 ## Introduction
@@ -64,6 +65,32 @@ csvString.split(/\r*\n/).map((line) => line.split(','));
 ```
 
 A utility that produces a data container with methods for visualising (in the console) and performing basic analyses and manipulation was written and can be found in [utils/dataframe.ts](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/utils/dataframe.ts).
+
+## Data Integrity
+
+Data integrity was inspected by comparing statistics parameters generated against those generated using [this Jupyter notebook](https://github.com/MicrosoftLearning/Principles-of-Machine-Learning-Python).
+
+A significant difference of the calculated parameters for sepal length was observed, which was found to be caused by an incorrectly transcribed value (`6.4` instead of `5.4` on line 32 of the combined csv data). The reference parameters and final calculated parameters of the corrected data are shown below.
+
+[Reference](https://github.com/MicrosoftLearning/Principles-of-Machine-Learning-Python):
+┌──────────────┬───────┬────────┬────────┬─────────┬─────────┐
+│   (index)    │ count │  mean  │   sd   │   min   │   max   │
+├──────────────┼───────┼────────┼────────┼─────────┼─────────┤
+│ Sepal Length │  150  │ 5.8433 │ 0.8281 │ 4.3000  │ 7.9000  │
+│ Sepal Width  │  150  │ 3.0573 │ 0.4359 │ 2.0000  │ 4.4000  │
+│ Petal Length │  150  │ 3.758  │ 1.7653 │ 1.0000  │ 6.9000  │
+│ Petal Width  │  150  │ 1.1993 │ 0.7622 │ 0.1000  │ 2.5000  │
+└──────────────┴───────┴────────┴────────┴─────────┴─────────┘
+
+Calculated:
+┌──────────────┬───────┬────────┬────────┬─────┬─────┐
+│   (index)    │ count │  mean  │   sd   │ min │ max │
+├──────────────┼───────┼────────┼────────┼─────┼─────┤
+│ Sepal Length │  150  │ 5.8433 │ 0.8281 │ 4.3 │ 7.9 │
+│ Sepal Width  │  150  │ 3.0573 │ 0.4359 │  2  │ 4.4 │
+│ Petal Length │  150  │ 3.758  │ 1.7653 │  1  │ 6.9 │
+│ Petal Width  │  150  │ 1.1993 │ 0.7622 │ 0.1 │ 2.5 │
+└──────────────┴───────┴────────┴────────┴─────┴─────┘
 
 ## Documentation for dataframe.ts
 
@@ -313,7 +340,13 @@ Processes a CSV string or clones an array of arrays and assigns the result to `d
 
 ### `dataframe.standardise()`\/`dataframe.standardize()`
 
-Creates a new dataframe object with features scaled to have (as close as possible) zero mean and unit variance.
+Creates a new dataframe object with features scaled to have (as close as possible) zero mean and unit variance. The standardised value is caculated as follows:
+
+```
+x' = (x - μ) / σ
+```
+
+Where `x'` is the scaled value, `x` the initial value, `μ` the sample mean, and `σ` the sample standard deviation.
 
 #### Return value
 
