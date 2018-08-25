@@ -73,6 +73,7 @@ Data integrity was inspected by comparing statistics parameters generated agains
 A significant difference of the calculated parameters for sepal length was observed, which was found to be caused by an incorrectly transcribed value (`6.4` instead of `5.4` on line 32 of the combined csv data). The reference parameters and final calculated parameters of the corrected data are shown below.
 
 [Reference](https://github.com/MicrosoftLearning/Principles-of-Machine-Learning-Python):
+```
 ┌──────────────┬───────┬────────┬────────┬─────────┬─────────┐
 │   (index)    │ count │  mean  │   sd   │   min   │   max   │
 ├──────────────┼───────┼────────┼────────┼─────────┼─────────┤
@@ -81,8 +82,10 @@ A significant difference of the calculated parameters for sepal length was obser
 │ Petal Length │  150  │ 3.758  │ 1.7653 │ 1.0000  │ 6.9000  │
 │ Petal Width  │  150  │ 1.1993 │ 0.7622 │ 0.1000  │ 2.5000  │
 └──────────────┴───────┴────────┴────────┴─────────┴─────────┘
+```
 
 Calculated:
+```
 ┌──────────────┬───────┬────────┬────────┬─────┬─────┐
 │   (index)    │ count │  mean  │   sd   │ min │ max │
 ├──────────────┼───────┼────────┼────────┼─────┼─────┤
@@ -91,6 +94,7 @@ Calculated:
 │ Petal Length │  150  │ 3.758  │ 1.7653 │  1  │ 6.9 │
 │ Petal Width  │  150  │ 1.1993 │ 0.7622 │ 0.1 │ 2.5 │
 └──────────────┴───────┴────────┴────────┴─────┴─────┘
+```
 
 ## Documentation for dataframe.ts
 
