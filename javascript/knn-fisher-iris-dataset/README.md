@@ -33,11 +33,11 @@ The relevant columns for each iris species was first copied into separate text f
 * One case of `0` copied as `o` was rectified
 * The columns were checked to be correctly copied for each species by checking the the first and last few numbers of each column
 
-[Raw data](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/raw)
+The raw data can be found in [/data/raw](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/raw)
 
 ### Automated Cleaning
 
-Since some of the the decimal points were not correct copied initially, the cleaning was automated as follows:
+Since some of the the decimal points were not correctly copied initially, the cleaning was automated as follows:
 
 1. Find non-empty lines that are not headers in each of the raw data files
 2. Ensure that the second character, which is always a decimal point, is the `.` character
@@ -51,7 +51,7 @@ While the CSV format is strictly not required in this case (and that CSV files f
 The format to be converted to is as follows:
 
 ```
-sepal_length, sepal_width, petal_length, petal_width, species
+'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
 ```
 
 The CSV files can be found in [/data/csv](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset/data/csv) and the corresponding code can be found in [/data/convert-raw-to-csv.ts](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/data/convert-raw-to-csv.ts).
