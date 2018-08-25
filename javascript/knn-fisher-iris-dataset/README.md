@@ -9,6 +9,7 @@
   * [Automated Cleaning](#automated-cleaning)
   * [Converting to CSV Format](#converting-to-csv-format)
 * [Data Integrity](#data-integrity)
+* [Data Analysis](#data-analysis)
 * [Documentation for dataframe.ts](#documentation-for-dataframets)
 
 ## Introduction
@@ -96,45 +97,35 @@ Calculated:
 └──────────────┴───────┴────────┴────────┴─────┴─────┘
 ```
 
+## Data Analysis
+
+
+
+
+
+
+
+
+
+
+
 ## Documentation for dataframe.ts
 
 The dataframe utility is a crude reinvention of some of the functionalities commonly found in other data processing packages. **There are currently little to no error-checking facilities in these methods, and no library is used to mitigate floating point errors.**
 
 ### Usage
 
-The dataframe utility provides two functions, `Container` and `createContainer`, for creating a dataframe object. The only difference between the two is that `Container` is a constructor function that requires the use of the `new` keyword and `createContainer` does not; the object that both method produce is functionally identical:
+The dataframe utility provies a function, `createContainer`, for creating a dataframe object:
 
 ```javascript
-import { Container, createContainer } from './utils/dataframe';
+import { createContainer } from './utils/dataframe';
 
 const csv = '1,2,3\n4,5,6\n7,8,9\n';
 const dataArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
 let dataframe;
 
-dataframe = new Container(csv);
-dataframe.print();
-
-// ┌─────────┬───┬───┬───┐
-// │ (index) │ 0 │ 1 │ 2 │
-// ├─────────┼───┼───┼───┤
-// │    0    │ 1 │ 2 │ 3 │
-// │    1    │ 4 │ 5 │ 6 │
-// │    2    │ 7 │ 8 │ 9 │
-// └─────────┴───┴───┴───┘
-
 dataframe = createContainer(csv);
-dataframe.print();
-
-// ┌─────────┬───┬───┬───┐
-// │ (index) │ 0 │ 1 │ 2 │
-// ├─────────┼───┼───┼───┤
-// │    0    │ 1 │ 2 │ 3 │
-// │    1    │ 4 │ 5 │ 6 │
-// │    2    │ 7 │ 8 │ 9 │
-// └─────────┴───┴───┴───┘
-
-dataframe = new Container(dataArray);
 dataframe.print();
 
 // ┌─────────┬───┬───┬───┐
