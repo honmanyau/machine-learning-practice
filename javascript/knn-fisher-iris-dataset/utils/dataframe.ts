@@ -9,10 +9,11 @@
 // iris.headers = [
 //   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
 // ];
+//
 // const setosa = iris.filter({ Species: 'setosa' });
 // const virginica = iris.filter({ Species: 'virginica' });
 // const versicolor = iris.filter({ Species: 'versicolor' });
-
+//
 // setosa.describe();
 // virginica.describe();
 // versicolor.describe();
@@ -26,19 +27,19 @@ export { Container, createContainer };
 // == Interfaces ==
 // ================
 interface IContainer {
-  headers: string[],
-  data: any[][],
-  describe: (dp?: number | false) => {},
-  filter: <T extends {}>(filters: T) => IContainer,
-  head: (rows?: number) => void,
-  print: (start?: number, end?: number) => void,
-  readData: (input: string | any[][]) => void,
-  select: (names: (string | number)[]) => IContainer,
-  standardise: () => IContainer,
-  standardize: () => IContainer,
-  tail: (rows?: number) => void,
-  transpose: () => {}
-};
+  headers: string[];
+  data: any[][];
+  describe: (dp?: number | false) => {};
+  filter: <T extends {}>(filters: T) => IContainer;
+  head: (rows?: number) => void;
+  print: (start?: number, end?: number) => void;
+  readData: (input: string | any[][]) => void;
+  select: (names: Array<string | number>) => IContainer;
+  standardise: () => IContainer;
+  standardize: () => IContainer;
+  tail: (rows?: number) => void;
+  transpose: () => {};
+}
 
 // ===============
 // == Functions ==
@@ -52,7 +53,7 @@ interface IContainer {
  *     resultant array assigned to {@code this.data}; if no argument is
  *     passed in, an "empty" container is created.
  */
-function Container(input: string | any[][] = null): void {
+function Container(input: string | any[][] | null = null): void {
   this.headers = null;
   this.data = null;
   // Methods
@@ -80,11 +81,11 @@ function Container(input: string | any[][] = null): void {
  *     passed in, an "empty" container is created.
  * @returns {IContainer} A dataframe object.
  */
-function createContainer(input: string | any[][] = null): IContainer {
+function createContainer(input: string | any[][] = [[]]): IContainer {
   const standardize = standardise;
   const container: IContainer = {
-    headers: null,
-    data: null,
+    headers: [],
+    data: [[]],
     // Methods
     describe,
     filter,
@@ -98,9 +99,9 @@ function createContainer(input: string | any[][] = null): IContainer {
     transpose
   };
 
- container.readData(input);
+  container.readData(input);
 
- return container;
+  return container;
 }
 
 /**
@@ -139,7 +140,7 @@ function readData(input: string | any[][]): void {
   }
 
   this.data = data;
-  this.headers = this.data[0].map((value, index) => index);
+  this.headers = this.data[0].map((value: any, index: number) => String(index));
 }
 
 /**
@@ -159,7 +160,7 @@ function print(start: number = 0, end?: number): void {
     return console.table(data);
   }
 
-  const formattedData = data.map((row) => {
+  const formattedData = data.map((row: any[]) => {
     const printableRow = {};
 
     row.forEach((value, index) => {
@@ -198,10 +199,10 @@ function tail(rows: number = 5): void {
  * @param {string[]|number[]} headers An array of column headings or indices.
  * @returns {{}} A data container object with only the selected columns.
  */
-function select(headers: (string | number)[]): IContainer {
+function select(headers: Array<string | number>): IContainer {
   const indices = convertToIndices(headers, this.headers);
   const newContainer = createContainer(this.data);
-  const filterByIndex = (value, index) => ~indices.indexOf(index);
+  const filterByIndex = (value: string, index: number) => ~indices.indexOf(index);
   const newHeaders = this.headers.filter(filterByIndex);
   const newData = newContainer.data.map((row) => row.filter(filterByIndex));
 
@@ -246,13 +247,13 @@ function transpose(): {} {
   const transposed = {};
   const { headers, data } = this;
 
-  headers.forEach((header) => {
+  headers.forEach((header: string) => {
     if (!transposed[header]) {
       transposed[header] = [];
     }
   });
 
-  data.forEach((row) => {
+  data.forEach((row: any[]) => {
     row.forEach((feature, index) => {
       transposed[headers[index]].push(feature);
     });
@@ -266,17 +267,18 @@ function transpose(): {} {
  * is printed to the console as a table and returned as a object for further
  * manipulation. The metrics reported are count, mean, variance, standard
  * deviation, minimum value, and maximum value.
- * @param {number | false} dp The number of decimal places to be rounded to internally
- *     using {@code Number.prototype.toFixed()}. The output observed in the
- *     console may be less than the number of decimal places specified since the
- *     string produced by {@code toFixed()} is converted back to a number using
- *     {@code }Number()}. If {@code false} is given, no rounding will occur.
+ * @param {number | false} dp The number of decimal places to be rounded to
+ *     internally using {@code Number.prototype.toFixed()}. The output observed
+ *     in the console may be less than the number of decimal places specified
+ *     since the string produced by {@code toFixed()} is converted back to a
+ *     number using {@code }Number()}. If {@code false} is given, no rounding
+ *     will occur.
  * @return {{}}
  */
 function describe(dp: number | false = 4): {} {
   // Columns that are not numeric will be undefined, which is used as a flag
   // below to avoid data processing.
-  const summary = this.data[0].map((value) => {
+  const summary = this.data[0].map((value: any) => {
     if (typeof value === 'number') {
       return {
         count: 0,
@@ -289,37 +291,34 @@ function describe(dp: number | false = 4): {} {
         max: value
       };
     }
+    else {
+      return undefined;
+    }
   });
   const summaryObject = {};
 
   // Calculate the sum and count of each column
-  for (let rowIndex = 0; rowIndex < this.data.length; rowIndex++) {
-    const row = this.data[rowIndex];
-
+  for (const row of this.data) {
     for (let featureIndex = 0; featureIndex < row.length; featureIndex++) {
       const column = summary[featureIndex];
       const feature = row[featureIndex];
 
       if (column) {
         column.sum += feature;
-        column.count += 1
+        column.count += 1;
       }
     }
   }
 
   // Calculate the mean of each column
-  for (let summaryIndex = 0; summaryIndex < summary.length; summaryIndex++) {
-    const column = summary[summaryIndex];
-
+  for (const column of summary) {
     if (column) {
       column.mean = column.sum / column.count;
     }
   }
 
   // Calculate the min and max of each column
-  for (let rowIndex = 0; rowIndex < this.data.length; rowIndex++) {
-    const row = this.data[rowIndex];
-
+  for (const row of this.data) {
     for (let featureIndex = 0; featureIndex < row.length; featureIndex++) {
       const column = summary[featureIndex];
 
@@ -351,7 +350,7 @@ function describe(dp: number | false = 4): {} {
 
       Object.keys(column).forEach((key) => {
         const feature = column[key];
-        const round = (dp || dp === 0) && Number.isInteger(dp)
+        const round = (dp || dp === 0) && Number.isInteger(dp);
 
         column[key] = round ? Number(feature.toFixed(dp)) : feature;
       });
@@ -373,19 +372,25 @@ function describe(dp: number | false = 4): {} {
  * sample mean, and {@code σ} the sample standard deviation.
  * @returns {IContainer} A dataframe object with standardised columns.
  */
-function standardise(): IContainer {
+function standardise(this: IContainer): IContainer {
   const stats = disableConsole('table', () => this.describe(false));
   const selection = this.select(Object.keys(stats));
 
-  selection.data.forEach((row, rowIndex) => {
-    row.forEach((feature, featureIndex) => {
-      const header = selection.headers[featureIndex];
-      const mean = stats[header].mean;
-      const sd = stats[header].sd;
+  if (!selection.data) {
+    console.warn('No data to standardise!');
+    console.trace();
+  }
+  else {
+    selection.data.forEach((row: number[], rowIndex: number) => {
+      row.forEach((feature: number, featureIndex: number) => {
+        const header = selection.headers[featureIndex];
+        const mean = stats[header].mean;
+        const sd = stats[header].sd;
 
-      selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
+        selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
+      });
     });
-  });
+  }
 
   return selection;
 }
@@ -403,7 +408,7 @@ function standardise(): IContainer {
  * @returns {number[]} An array of header indices
  */
 function convertToIndices(
-  headers: (string | number)[], reference: (string | number)[]
+  headers: Array<string | number>, reference: Array<string | number>
 ): number[] {
   const indices = headers.map((header) => (
     typeof header === 'number' && Number.isInteger(header) ?
@@ -413,7 +418,7 @@ function convertToIndices(
 
   if (indices.reduce((acc, index) => acc || !reference[index], false)) {
     throw new Error(`Invalid index or header found in ${headers}.`);
-  };
+  }
 
   return indices;
 }
@@ -429,15 +434,15 @@ function disableConsole(type: string, callback: () => any): any {
   }
 
   Object.defineProperty(console, type, {
-    get: function () {
-      return () => {};
+    get() {
+      return () => null;
     }
   });
 
   const returnValue = callback();
 
   Object.defineProperty(console, type, {
-    get: function () {
+    get() {
       return ref;
     }
   });
