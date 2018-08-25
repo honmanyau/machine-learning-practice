@@ -4,7 +4,7 @@
 import * as fs from 'fs';
 
 const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
-const iris = createContainer(csv);
+const iris = createDataframe(csv);
 
 iris.headers = [
   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
@@ -21,22 +21,22 @@ versicolor.describe();
 // =============
 // == Exports ==
 // =============
-export { createContainer };
+export { createDataframe };
 
 // ================
 // == Interfaces ==
 // ================
-interface IContainer {
+interface IDataframe {
   headers: string[];
   data: any[][];
   describe: (dp?: number | false) => object;
-  filter: <T extends {}>(filters: T) => IContainer;
+  filter: <T extends {}>(filters: T) => IDataframe;
   head: (rows?: number) => void;
   print: (start?: number, end?: number) => void;
   readData: (input: string | any[][]) => void;
-  select: (names: Array<string | number>) => IContainer;
-  standardise: () => IContainer;
-  standardize: () => IContainer;
+  select: (names: Array<string | number>) => IDataframe;
+  standardise: () => IDataframe;
+  standardize: () => IDataframe;
   tail: (rows?: number) => void;
   transpose: () => object;
 }
@@ -45,18 +45,18 @@ interface IContainer {
 // == Functions ==
 // ===============
 /**
- * This function is a non-constructor version of of {@code Container}.
- * @param {string|any[][]} data Data to be assigned to this.data.columns. When
- *     the argument is a string, the {@code readCsv} method is used to attempt
- *     to parse the data; if the data is not a string, a deep copy will be
- *     created using {@code JSON.stringify} and {@code JSON.parse} and the
+ * This function creates a dataframe object with the given data.
+ * @param {string|any[][]} data Data to be assigned to {@code this.data.columns}.
+ *     When the argument is a string, the {@code readCsv} method is used to
+ *     attempt to parse the data; if the data is not a string, a deep copy will
+ *     be created using {@code JSON.stringify} and {@code JSON.parse} and the
  *     resultant array assigned to {@code this.data}; if no argument is
- *     passed in, an "empty" container is created.
- * @returns {IContainer} A dataframe object.
+ *     passed in, an "empty" dataframe is created.
+ * @returns {IDataframe} A dataframe object.
  */
-function createContainer(input: string | any[][] = [[]]): IContainer {
+function createDataframe(input: string | any[][] = [[]]): IDataframe {
   const standardize = standardise;
-  const container: IContainer = {
+  const dataframe: IDataframe = {
     headers: [],
     data: [[]],
     // Methods
@@ -72,9 +72,9 @@ function createContainer(input: string | any[][] = [[]]): IContainer {
     transpose
   };
 
-  container.readData(input);
+  dataframe.readData(input);
 
-  return container;
+  return dataframe;
 }
 
 /**
@@ -85,9 +85,9 @@ function createContainer(input: string | any[][] = [[]]): IContainer {
  *     to parse the data; if the data is not a string, a deep copy will be
  *     created using {@code JSON.stringify} and {@code JSON.parse} and the
  *     resultant array assigned to {@code this.data}; if no argument is
- *     passed in, an "empty" container is created.
+ *     passed in, an "empty" dataframe is created.
  */
-function readData(this: IContainer, input: string | any[][]): void {
+function readData(this: IDataframe, input: string | any[][]): void {
   let data: any[][];
 
   if (typeof input === 'string') {
@@ -125,7 +125,7 @@ function readData(this: IContainer, input: string | any[][]): void {
  * @param {number} end The zero-based index of the entry in
  *     {@code dataframe.data} to terminate printing with.
  */
-function print(this: IContainer, start: number = 0, end?: number): void {
+function print(this: IDataframe, start: number = 0, end?: number): void {
   const len = arguments.length;
   const data = this.data.slice(...(len < 2 ? [start] : [start, end]));
 
@@ -153,7 +153,7 @@ function print(this: IContainer, start: number = 0, end?: number): void {
  * {@code }dataframe.data} to the console.
  * @param {number} rows The number of rows to be printed.
  */
-function head(this: IContainer, rows: number = 5): void {
+function head(this: IDataframe, rows: number = 5): void {
   print.bind(this, 0)(rows);
 }
 
@@ -162,7 +162,7 @@ function head(this: IContainer, rows: number = 5): void {
  * row in, {@code dataframe.data} to the console.
  * @param {number} rows The number of rows to be printed.
  */
-function tail(this: IContainer, rows: number = 5): void {
+function tail(this: IDataframe, rows: number = 5): void {
   print.bind(this)(this.data.length - rows);
 }
 
@@ -170,19 +170,19 @@ function tail(this: IContainer, rows: number = 5): void {
  * This function selects the column with the column heading(s) or index/indices
  * given and returns a data object containing those columns.
  * @param {string[]|number[]} headers An array of column headings or indices.
- * @returns {{}} A data container object with only the selected columns.
+ * @returns {{}} A data dataframe object with only the selected columns.
  */
-function select(this: IContainer, headers: Array<string | number>): IContainer {
+function select(this: IDataframe, headers: Array<string | number>): IDataframe {
   const indices = convertToIndices(headers, this.headers);
-  const newContainer = createContainer(this.data);
+  const newDataframe = createDataframe(this.data);
   const filterByIndex = (value: string, index: number) => ~indices.indexOf(index);
   const newHeaders = this.headers.filter(filterByIndex);
-  const newData = newContainer.data.map((row) => row.filter(filterByIndex));
+  const newData = newDataframe.data.map((row) => row.filter(filterByIndex));
 
-  newContainer.data = newData;
-  newContainer.headers = newHeaders;
+  newDataframe.data = newData;
+  newDataframe.headers = newHeaders;
 
-  return newContainer;
+  return newDataframe;
 }
 
 /**
@@ -190,14 +190,14 @@ function select(this: IContainer, headers: Array<string | number>): IContainer {
  * grouping conditions provided.
  * @param {conditions} headers An object whose keys are headers of the columns
  *     to be filtered and values are the values to filter with.
- * @returns {IContainer}
+ * @returns {IDataframe}
  */
-function filter<T extends {}>(this: IContainer, conditions: T): IContainer {
+function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
-  const newContainer = createContainer(this.data);
+  const newDataframe = createDataframe(this.data);
 
-  newContainer.headers = [...this.headers];
-  newContainer.data = newContainer.data.filter((row) => (
+  newDataframe.headers = [...this.headers];
+  newDataframe.data = newDataframe.data.filter((row) => (
     headers.reduce((acc, header) => {
       const feature = conditions[header];
       const reference = row[this.headers.indexOf(header)];
@@ -206,7 +206,7 @@ function filter<T extends {}>(this: IContainer, conditions: T): IContainer {
     }, true)
   ));
 
-  return newContainer;
+  return newDataframe;
 }
 
 /**
@@ -216,7 +216,7 @@ function filter<T extends {}>(this: IContainer, conditions: T): IContainer {
  *     {@code dataframe.headers} and its values is an array of the corresponding
  *     values in {@code dataframe.data}.
  */
-function transpose(this: IContainer): object {
+function transpose(this: IDataframe): object {
   const transposed = {};
   const { headers, data } = this;
 
@@ -248,7 +248,7 @@ function transpose(this: IContainer): object {
  *     will occur.
  * @return {{}}
  */
-function describe(this: IContainer, dp: number | false = 4): object {
+function describe(this: IDataframe, dp: number | false = 4): object {
   // Columns that are not numeric will be undefined, which is used as a flag
   // below to avoid data processing.
   const summary = this.data[0].map((value: any) => {
@@ -343,9 +343,9 @@ function describe(this: IContainer, dp: number | false = 4): object {
  * value is caculated using the formula {@code x' = (x - μ) / σ}, Where
  * {@code x'} is the scaled value, {@code x} the initial value, {@code μ} the
  * sample mean, and {@code σ} the sample standard deviation.
- * @returns {IContainer} A dataframe object with standardised columns.
+ * @returns {IDataframe} A dataframe object with standardised columns.
  */
-function standardise(this: IContainer): IContainer {
+function standardise(this: IDataframe): IDataframe {
     const stats = disableConsole('table', () => this.describe(false));
     const selection = this.select(Object.keys(stats));
 

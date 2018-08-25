@@ -65,7 +65,7 @@ Given a CSV file that is loaded into memory as a string, the conversion of that 
 csvString.split(/\r*\n/).map((line) => line.split(','));
 ```
 
-A utility that produces a data container with methods for visualising (in the console) and performing basic analyses and manipulation was written and can be found in [utils/dataframe.ts](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/utils/dataframe.ts).
+A utility that produces a data dataframe with methods for visualising (in the console) and performing basic analyses and manipulation was written and can be found in [utils/dataframe.ts](https://github.com/honmanyau/machine-learning-practice/blob/master/javascript/knn-fisher-iris-dataset/utils/dataframe.ts).
 
 ## Data Integrity
 
@@ -99,7 +99,7 @@ Calculated:
 
 ## Data Analysis
 
-
+The `iris` identifier below is a dataframe created using
 
 
 
@@ -115,17 +115,17 @@ The dataframe utility is a crude reinvention of some of the functionalities comm
 
 ### Usage
 
-The dataframe utility provies a function, `createContainer`, for creating a dataframe object:
+The dataframe utility provies a function, `createDataframe`, for creating a dataframe object:
 
 ```javascript
-import { createContainer } from './utils/dataframe';
+import { createDataframe } from './utils/dataframe';
 
 const csv = '1,2,3\n4,5,6\n7,8,9\n';
 const dataArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
 let dataframe;
 
-dataframe = createContainer(csv);
+dataframe = createDataframe(csv);
 dataframe.print();
 
 // ┌─────────┬───┬───┬───┐
@@ -136,7 +136,7 @@ dataframe.print();
 // │    2    │ 7 │ 8 │ 9 │
 // └─────────┴───┴───┴───┘
 
-dataframe = createContainer(dataArray);
+dataframe = createDataframe(dataArray);
 dataframe.print();
 // ┌─────────┬───┬───┬───┐
 // │ (index) │ 0 │ 1 │ 2 │
@@ -165,7 +165,7 @@ const data = [
 const headers = [
   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
 ];
-const dataframe = createContainer(data);
+const dataframe = createDataframe(data);
 
 dataframe.print();
 // ┌─────────┬─────┬─────┬─────┬─────┬──────────┐
