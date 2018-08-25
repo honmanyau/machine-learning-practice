@@ -1,27 +1,27 @@
 // ==============
 // == Examples ==
 // ==============
-// import * as fs from 'fs';
-//
-// const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
-// const iris = createContainer(csv);
-//
-// iris.headers = [
-//   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
-// ];
-//
-// const setosa = iris.filter({ Species: 'setosa' });
-// const virginica = iris.filter({ Species: 'virginica' });
-// const versicolor = iris.filter({ Species: 'versicolor' });
-//
-// setosa.describe();
-// virginica.describe();
-// versicolor.describe();
+import * as fs from 'fs';
+
+const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
+const iris = createContainer(csv);
+
+iris.headers = [
+  'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
+];
+
+const setosa = iris.filter({ Species: 'setosa' });
+const virginica = iris.filter({ Species: 'virginica' });
+const versicolor = iris.filter({ Species: 'versicolor' });
+
+setosa.describe();
+virginica.describe();
+versicolor.describe();
 
 // =============
 // == Exports ==
 // =============
-export { Container, createContainer };
+export { createContainer };
 
 // ================
 // == Interfaces ==
@@ -29,7 +29,7 @@ export { Container, createContainer };
 interface IContainer {
   headers: string[];
   data: any[][];
-  describe: (dp?: number | false) => {};
+  describe: (dp?: number | false) => object;
   filter: <T extends {}>(filters: T) => IContainer;
   head: (rows?: number) => void;
   print: (start?: number, end?: number) => void;
@@ -38,39 +38,12 @@ interface IContainer {
   standardise: () => IContainer;
   standardize: () => IContainer;
   tail: (rows?: number) => void;
-  transpose: () => {};
+  transpose: () => object;
 }
 
 // ===============
 // == Functions ==
 // ===============
-/**
- * This constructor function creats a new data container object.
- * @param {string|any[][]} input Data to be assigned to this.data.columns. When
- *     the argument is a string, the {@code readCsv} method is used to attempt
- *     to parse the data; if the data is not a string, a deep copy will be
- *     created using {@code JSON.stringify} and {@code JSON.parse} and the
- *     resultant array assigned to {@code this.data}; if no argument is
- *     passed in, an "empty" container is created.
- */
-function Container(input: string | any[][] | null = null): void {
-  this.headers = null;
-  this.data = null;
-  // Methods
-  this.describe = describe;
-  this.filter = filter;
-  this.head = head;
-  this.print = print;
-  this.readData = readData;
-  this.select = select;
-  this.standardise = standardise;
-  this.standardize = standardise;
-  this.tail = tail;
-  this.transpose = transpose;
-
-  this.readData(input);
-}
-
 /**
  * This function is a non-constructor version of of {@code Container}.
  * @param {string|any[][]} data Data to be assigned to this.data.columns. When
@@ -114,7 +87,7 @@ function createContainer(input: string | any[][] = [[]]): IContainer {
  *     resultant array assigned to {@code this.data}; if no argument is
  *     passed in, an "empty" container is created.
  */
-function readData(input: string | any[][]): void {
+function readData(this: IContainer, input: string | any[][]): void {
   let data: any[][];
 
   if (typeof input === 'string') {
@@ -152,7 +125,7 @@ function readData(input: string | any[][]): void {
  * @param {number} end The zero-based index of the entry in
  *     {@code dataframe.data} to terminate printing with.
  */
-function print(start: number = 0, end?: number): void {
+function print(this: IContainer, start: number = 0, end?: number): void {
   const len = arguments.length;
   const data = this.data.slice(...(len < 2 ? [start] : [start, end]));
 
@@ -180,7 +153,7 @@ function print(start: number = 0, end?: number): void {
  * {@code }dataframe.data} to the console.
  * @param {number} rows The number of rows to be printed.
  */
-function head(rows: number = 5): void {
+function head(this: IContainer, rows: number = 5): void {
   print.bind(this, 0)(rows);
 }
 
@@ -189,7 +162,7 @@ function head(rows: number = 5): void {
  * row in, {@code dataframe.data} to the console.
  * @param {number} rows The number of rows to be printed.
  */
-function tail(rows: number = 5): void {
+function tail(this: IContainer, rows: number = 5): void {
   print.bind(this)(this.data.length - rows);
 }
 
@@ -199,7 +172,7 @@ function tail(rows: number = 5): void {
  * @param {string[]|number[]} headers An array of column headings or indices.
  * @returns {{}} A data container object with only the selected columns.
  */
-function select(headers: Array<string | number>): IContainer {
+function select(this: IContainer, headers: Array<string | number>): IContainer {
   const indices = convertToIndices(headers, this.headers);
   const newContainer = createContainer(this.data);
   const filterByIndex = (value: string, index: number) => ~indices.indexOf(index);
@@ -219,7 +192,7 @@ function select(headers: Array<string | number>): IContainer {
  *     to be filtered and values are the values to filter with.
  * @returns {IContainer}
  */
-function filter<T extends {}>(conditions: T): IContainer {
+function filter<T extends {}>(this: IContainer, conditions: T): IContainer {
   const headers = Object.keys(conditions);
   const newContainer = createContainer(this.data);
 
@@ -243,7 +216,7 @@ function filter<T extends {}>(conditions: T): IContainer {
  *     {@code dataframe.headers} and its values is an array of the corresponding
  *     values in {@code dataframe.data}.
  */
-function transpose(): {} {
+function transpose(this: IContainer): object {
   const transposed = {};
   const { headers, data } = this;
 
@@ -259,7 +232,7 @@ function transpose(): {} {
     });
   });
 
-  return transposed;
+  return transpose;
 }
 
 /**
@@ -275,7 +248,7 @@ function transpose(): {} {
  *     will occur.
  * @return {{}}
  */
-function describe(dp: number | false = 4): {} {
+function describe(this: IContainer, dp: number | false = 4): object {
   // Columns that are not numeric will be undefined, which is used as a flag
   // below to avoid data processing.
   const summary = this.data[0].map((value: any) => {
@@ -285,8 +258,8 @@ function describe(dp: number | false = 4): {} {
         sum: 0,
         mean: 0,
         squaredDeviationFromMean: 0,
-        variance: null,
-        sd: null,
+        variance: -1,
+        sd: -1,
         min: value,
         max: value
       };
@@ -373,26 +346,26 @@ function describe(dp: number | false = 4): {} {
  * @returns {IContainer} A dataframe object with standardised columns.
  */
 function standardise(this: IContainer): IContainer {
-  const stats = disableConsole('table', () => this.describe(false));
-  const selection = this.select(Object.keys(stats));
+    const stats = disableConsole('table', () => this.describe(false));
+    const selection = this.select(Object.keys(stats));
 
-  if (!selection.data) {
-    console.warn('No data to standardise!');
-    console.trace();
-  }
-  else {
-    selection.data.forEach((row: number[], rowIndex: number) => {
-      row.forEach((feature: number, featureIndex: number) => {
-        const header = selection.headers[featureIndex];
-        const mean = stats[header].mean;
-        const sd = stats[header].sd;
+    if (!selection.data) {
+      console.warn('No data to standardise!');
+      console.trace();
+    }
+    else {
+      selection.data.forEach((row: number[], rowIndex: number) => {
+        row.forEach((feature: number, featureIndex: number) => {
+          const header = selection.headers[featureIndex];
+          const mean = stats[header].mean;
+          const sd = stats[header].sd;
 
-        selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
+          selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
+        });
       });
-    });
-  }
+    }
 
-  return selection;
+    return selection;
 }
 
 // ======================
