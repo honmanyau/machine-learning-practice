@@ -352,23 +352,22 @@ function describe(this: IDataframe, dp: number | false = 4): object {
  * @returns {IDataframe} A dataframe object with standardised columns.
  */
 function standardise(this: IDataframe): IDataframe {
-  const newDataframe = this.clone();
-  const stats = disableConsole('table', () => newDataframe.describe(false));
+  const stats = disableConsole('table', () => this.describe(false));
 
-  newDataframe.data.forEach((row: number[], rowIndex: number) => {
+  this.data.forEach((row: number[], rowIndex: number) => {
     row.forEach((feature: number, featureIndex: number) => {
-      const header = newDataframe.headers[featureIndex];
+      const header = this.headers[featureIndex];
 
       if (stats[header]) {
         const mean = stats[header].mean;
         const sd = stats[header].sd;
 
-        newDataframe.data[rowIndex][featureIndex] = (feature - mean) / sd;
+        this.data[rowIndex][featureIndex] = (feature - mean) / sd;
       }
     });
   });
 
-  return newDataframe;
+  return this;
 }
 
 /**
