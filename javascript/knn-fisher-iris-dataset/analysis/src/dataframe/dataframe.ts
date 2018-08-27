@@ -15,6 +15,7 @@ interface IDataframe {
   print: (start?: number, end?: number) => void;
   readData: (input: string | any[][]) => void;
   select: (names: Array<string | number>) => IDataframe;
+  shuffle: () => void;
   standardise: () => IDataframe;
   standardize: () => IDataframe;
   tail: (rows?: number) => void;
@@ -46,6 +47,7 @@ function createDataframe(input: string | any[][] = [[]]): IDataframe {
     print,
     readData,
     select,
+    shuffle,
     standardise,
     standardize,
     tail,
@@ -346,6 +348,19 @@ function standardise(this: IDataframe): IDataframe {
     }
 
     return selection;
+}
+
+/**
+ * This function randomises the data in the dataframe and is an implementation
+ * of the Durstenfeld shuffle algorithm.
+ */
+function shuffle(this: IDataframe): void {
+  // Reference: https://stackoverflow.com/questions/2450954/how-to-randomize
+  // -shuffle-a-javascript-array/12646864
+  for (let i = this.data.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
+  }
 }
 
 // ======================
