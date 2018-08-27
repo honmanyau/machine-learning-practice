@@ -11,6 +11,7 @@
 * [Data Integrity](#data-integrity)
 * [Data Analysis](#data-analysis)
 * [Documentation for dataframe.ts](#documentation-for-dataframets)
+* [Scatter Chart React Component](#scatter-chart-react-component)
 
 ## Introduction
 
@@ -99,7 +100,96 @@ Calculated:
 
 ## Data Analysis
 
-The `iris` identifier below is a dataframe created using
+The `iris` identifier below is a dataframe created using the `createDataframe` utility, with `iris.headers = ['Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species']`.
+
+### Statistics Parameters of the Entire Dataset
+
+```javascript
+iris.describe();
+/*
+┌──────────────┬───────┬────────┬──────────┬────────┬─────┬─────┐
+│   (index)    │ count │  mean  │ variance │   sd   │ min │ max │
+├──────────────┼───────┼────────┼──────────┼────────┼─────┼─────┤
+│ Sepal Length │  150  │ 5.8433 │  0.6857  │ 0.8281 │ 4.3 │ 7.9 │
+│ Sepal Width  │  150  │ 3.0573 │   0.19   │ 0.4359 │  2  │ 4.4 │
+│ Petal Length │  150  │ 3.758  │  3.1163  │ 1.7653 │  1  │ 6.9 │
+│ Petal Width  │  150  │ 1.1993 │  0.581   │ 0.7622 │ 0.1 │ 2.5 │
+└──────────────┴───────┴────────┴──────────┴────────┴─────┴─────┘
+*/
+```
+
+### Statistics Parameters by Iris Species
+
+```javascript
+const setosa = iris.filter({ Species: 'setosa' });
+const virginica = iris.filter({ Species: 'virginica' });
+const versicolor = iris.filter({ Species: 'versicolor' });
+
+setosa.describe();
+/*
+┌──────────────┬───────┬───────┬──────────┬────────┬─────┬─────┐
+│   (index)    │ count │ mean  │ variance │   sd   │ min │ max │
+├──────────────┼───────┼───────┼──────────┼────────┼─────┼─────┤
+│ Sepal Length │  50   │ 5.006 │  0.1242  │ 0.3525 │ 4.3 │ 5.8 │
+│ Sepal Width  │  50   │ 3.428 │  0.1437  │ 0.3791 │ 2.3 │ 4.4 │
+│ Petal Length │  50   │ 1.462 │  0.0302  │ 0.1737 │  1  │ 1.9 │
+│ Petal Width  │  50   │ 0.246 │  0.0111  │ 0.1054 │ 0.1 │ 0.6 │
+└──────────────┴───────┴───────┴──────────┴────────┴─────┴─────┘
+*/
+
+virginica.describe();
+/*
+┌──────────────┬───────┬───────┬──────────┬────────┬─────┬─────┐
+│   (index)    │ count │ mean  │ variance │   sd   │ min │ max │
+├──────────────┼───────┼───────┼──────────┼────────┼─────┼─────┤
+│ Sepal Length │  50   │ 6.588 │  0.4043  │ 0.6359 │ 4.9 │ 7.9 │
+│ Sepal Width  │  50   │ 2.974 │  0.104   │ 0.3225 │ 2.2 │ 3.8 │
+│ Petal Length │  50   │ 5.552 │  0.3046  │ 0.5519 │ 4.5 │ 6.9 │
+│ Petal Width  │  50   │ 2.026 │  0.0754  │ 0.2747 │ 1.4 │ 2.5 │
+└──────────────┴───────┴───────┴──────────┴────────┴─────┴─────┘
+*/
+
+versicolor.describe();
+/*
+┌──────────────┬───────┬───────┬──────────┬────────┬─────┬─────┐
+│   (index)    │ count │ mean  │ variance │   sd   │ min │ max │
+├──────────────┼───────┼───────┼──────────┼────────┼─────┼─────┤
+│ Sepal Length │  50   │ 5.936 │  0.2664  │ 0.5162 │ 4.9 │  7  │
+│ Sepal Width  │  50   │ 2.77  │  0.0985  │ 0.3138 │  2  │ 3.4 │
+│ Petal Length │  50   │ 4.26  │  0.2208  │ 0.4699 │  3  │ 5.1 │
+│ Petal Width  │  50   │ 1.326 │  0.0391  │ 0.1978 │  1  │ 1.8 │
+└──────────────┴───────┴───────┴──────────┴────────┴─────┴─────┘
+*/
+```
+
+### Visualisation
+
+All six possible feature combinations are visualised with scatter plots. *Iris setosa* appears to be distinctly different to *Iris virginica* and *Iris versicolor* in all cases. The data points between *Iris virginica* and *Iris versicolor* overlap to some degree in all cases, but the separation between the two are still statistically significant in all cases except for sepal length vs. sepal width.
+
+#### Sepal Length vs. Sepal Width of All Species
+
+![Sepal Length vs. Sepal Width of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-length-vs-sepal-width-all.svg)
+
+#### Sepal Length vs. Petal Length of All Species
+
+![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-length-vs-petal-length-all.svg)
+
+#### Sepal Length vs. Petal Width of All Species
+
+![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-length-vs-petal-length-all.svg)
+
+#### Sepal Width vs. Petal Length of All Species
+
+![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-width-vs-petal-length-all.svg)
+
+#### Sepal Width vs. Petal Width of All Species
+
+![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-width-vs-petal-width-all.svg)
+
+#### Petal Length vs. Petal Width of All Species
+
+![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/petal-length-vs-petal-width-all.svg)
+
 
 
 
@@ -362,6 +452,12 @@ Prints the last few rows of, and always ending with the last row in, `dataframe.
 #### Parameters
 
 * `rows` (optional, default: `5`)—the number of rows to be printed.
+
+## Scatter Plot React Component
+
+A scatter chart React component was created for visualising data. There are certainly libraries for constructing scatter plots, but I was curious and it seemed like an interesting learning exercise—so I made my own.
+
+
 
 
 
