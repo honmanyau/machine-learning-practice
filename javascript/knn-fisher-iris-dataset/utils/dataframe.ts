@@ -33,7 +33,7 @@ interface IDataframe {
   data: any[][];
   clone: () => IDataframe;
   describe: (dp?: number | false) => object;
-  filter: <T extends {}>(filters: T) => IDataframe;
+  filter: <T extends object>(filters: T) => IDataframe;
   head: (rows?: number) => void;
   print: (start?: number, end?: number) => void;
   readData: (input: string | any[][]) => void;
@@ -178,7 +178,7 @@ function tail(this: IDataframe, rows: number = 5): void {
  * This function selects the column with the column heading(s) or index/indices
  * given and returns a data object containing those columns.
  * @param {string[]|number[]} headers An array of column headings or indices.
- * @returns {{}} A data dataframe object with only the selected columns.
+ * @returns {object} A data dataframe object with only the selected columns.
  */
 function select(this: IDataframe, headers: Array<string | number>): IDataframe {
   const indices = convertToIndices(headers, this.headers);
@@ -201,7 +201,7 @@ function select(this: IDataframe, headers: Array<string | number>): IDataframe {
  * @returns {IDataframe} A new dataframe containing only entries that meet the
  *     the filter conditions.
  */
-function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
+function filter<T extends object>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
   const newDataframe = createDataframe(this.data);
 
@@ -221,7 +221,7 @@ function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
 /**
  * This function returns an array of features for each of the columns in
  * {@code this.data}.
- * @returns {{}} An object of which each property corresponds to a header in
+ * @returns {object} An object of which each property corresponds to a header in
  *     {@code dataframe.headers} and its values is an array of the corresponding
  *     values in {@code dataframe.data}.
  */
@@ -255,7 +255,7 @@ function transpose(this: IDataframe): object {
  *     since the string produced by {@code toFixed()} is converted back to a
  *     number using {@code }Number()}. If {@code false} is given, no rounding
  *     will occur.
- * @return {{}}
+ * @return {object} A object containing details of the summary.
  */
 function describe(this: IDataframe, dp: number | false = 4): object {
   // Columns that are not numeric will be undefined, which is used as a flag
