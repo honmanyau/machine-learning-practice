@@ -38,7 +38,7 @@ interface IDataframe {
   headers: string[];
   data: any[][];
   standardised: boolean;
-  destandardisers?: Array<(feature: number) => number>;
+  destandardisers?: Array<((feature: number) => number) | undefined>;
   // Methods
   clone: () => IDataframe;
   describe: (dp?: number | false) => object;
@@ -448,14 +448,14 @@ function replace(this: IDataframe, header: string, dictionary: object): void {
 /**
  * This function reverts the changes made by the {@code standardise} method.
  */
-function destandardise(): void {
+function destandardise(this: IDataframe): void {
   if (!this.standardised) {
     throw new Error('Dataframe has not been standardised!');
   }
 
   this.data.forEach((row: number[], rowIndex: number) => {
     row.forEach((feature: number, featureIndex: number) => {
-      const destandardiser = this.destandardisers[featureIndex];
+      const destandardiser = (this.destandardisers as any[])[featureIndex];
 
       if (destandardiser) {
         this.data[rowIndex][featureIndex] = destandardiser(feature);
