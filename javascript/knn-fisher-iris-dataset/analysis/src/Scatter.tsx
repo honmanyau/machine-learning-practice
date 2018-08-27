@@ -16,57 +16,38 @@ interface IScatterProps extends React.HTMLAttributes<HTMLDivElement> {
   yTickIntervals?: number
 }
 
-interface IXAxisLabel extends React.SVGAttributes<SVGTextElement> {
-  leftPadding?: number;
-  xPadding?: number;
-}
-
-interface IYAxisLabel extends React.SVGAttributes<SVGTextElement> {
-  topPadding?: number;
-  yPadding?: number;
-}
+// interface IXAxisLabel extends React.SVGAttributes<SVGTextElement> {
+//   leftPadding?: number;
+//   xPadding?: number;
+// }
+//
+// interface IYAxisLabel extends React.SVGAttributes<SVGTextElement> {
+//   topPadding?: number;
+//   yPadding?: number;
+// }
 
 const Container = styled.div`
   height: 500px;
   width: 500px;
 `;
-const Title = styled.text`
-  font-size: 18px;
-  text-anchor: middle;
-  transform: translate(50%, 5%);
-`;
-const Line = styled.line`
-  stroke-width: 2px;
-  stroke: black;
-`;
-const XScaleLabel = styled.text`
-  text-anchor: middle;
-`;
-const YScaleLabel = styled.text`
-  text-anchor: end;
-`;
-const XAxisLabel = styled<IXAxisLabel, 'text'>('text')`
-  text-anchor: middle;
-  transform: translate(
-    ${
-      (props) => props.leftPadding && props.xPadding ?
-        props.leftPadding + (100 - props.xPadding) / 2 :
-        52
-    }%,
-    97%
-  );;
-`;
-const YAxisLabel = styled<IYAxisLabel, 'text'>('text')`
-  text-anchor: middle;
-  transform: rotateZ(-90deg) translate(
-    ${
-      (props) => props.topPadding && props.yPadding ?
-        -(props.topPadding + (100 - props.yPadding) / 2) :
-        48
-    }%,
-    3%
-  );
-`;
+
+const styles = {
+  title: {
+    fontSize: `18px`,
+    textAnchor: 'middle' as 'middle'
+  },
+  line: {
+    strokeWidth: '2px',
+    stroke: 'black'
+  },
+  xAxisLabel: {
+    textAnchor: 'middle' as 'middle'
+  },
+  yAxisLabel: {
+    textAnchor: 'middle' as 'middle',
+    transform: 'rotateZ(-90deg)'
+  }
+};
 
 const Scatter: React.SFC<IScatterProps> = ({
   data, title, xAxisLabel, yAxisLabel, xTickIntervals = 5, yTickIntervals = 5
@@ -86,7 +67,7 @@ const Scatter: React.SFC<IScatterProps> = ({
   const xPadding = leftPadding + rightPadding;
   const yPadding = topPadding + bottomPadding;
   const xPlotLength = 100 - xPadding;
-  const yPlotLength = 100 - xPadding;
+  const yPlotLength = 100 - yPadding;
   const xPlotLengthScale = xPlotLength / 100;
   const yPlotLengthScale = yPlotLength / 100;
 
@@ -151,13 +132,16 @@ const Scatter: React.SFC<IScatterProps> = ({
     const xLabelProps = {
       x: `${xTickX}%`,
       y: `${100 - bottomPadding + 4}%`,
-      style: { transform: `translateX(${i === 0 ? 0 : -1}px)` },
+      style: {
+        textAnchor: 'middle' as 'middle',
+        transform: `translateX(${i === 0 ? 0 : -1}px)`
+      },
       key: 'x-scale-' + i
     };
     const xLabelValue = (xMin + i * xRange / xTickIntervals).toFixed(1);
 
-    xTicks.push(<Line {...xTickProps} />);
-    xScale.push(<XScaleLabel {...xLabelProps}>{xLabelValue}</XScaleLabel>);
+    xTicks.push(<line {...xTickProps} style={styles.line} />);
+    xScale.push(<text {...xLabelProps}>{xLabelValue}</text>);
   }
 
   for (let i = 0; i < yTickIntervals + 1; i++) {
@@ -176,15 +160,22 @@ const Scatter: React.SFC<IScatterProps> = ({
       x: `${leftPadding - 2}%`,
       y: `${yTickY}%`,
       dy: '0.32em',
-      style: { transform: `translateX(${i === 0 ? 0 : 1}px)` },
+      style: {
+        textAnchor: 'end' as 'end',
+        transform: `translateX(${i === 0 ? 0 : 1}px)`
+      },
       key: 'y-scale-' + i
     };
     const yLabelValue = (yMin + i * yRange / yTickIntervals).toFixed(1);
 
-    yTicks.push(<Line {...yTickProps} />);
-    yScale.push(<YScaleLabel {...yLabelProps}>{yLabelValue}</YScaleLabel>);
+    yTicks.push(<line {...yTickProps} style={styles.line} />);
+    yScale.push(<text {...yLabelProps}>{yLabelValue}</text>);
   }
 
+  const titleProps = {
+    x: '50%',
+    y: '5%'
+  };
   const xAxisProps = {
     x1: `${leftPadding}%`,
     x2: `${100 - rightPadding}%`,
@@ -197,24 +188,30 @@ const Scatter: React.SFC<IScatterProps> = ({
     y1: `${100 - bottomPadding}%`,
     y2: `${topPadding}%`
   };
-  const xAxisLabelProps = { leftPadding, xPadding };
-  const yAxisLabelProps = { topPadding, yPadding };
+  const xAxisLabelProps = {
+    x: `${leftPadding + (100 - xPadding) / 2}%`,
+    y: '97%'
+  };
+  const yAxisLabelProps = {
+    x: `-${topPadding + (100 - yPadding) / 2}%`,
+    y: '3%'
+  };
 
   return (
     <Container>
-      <svg height="100%" width="100%">
-        <Title>{title}</Title>
+      <svg height="100%" width="100%" fontFamily="sans-serif">
+        <text {...titleProps} style={styles.title}>{title}</text>
 
-        <Line {...xAxisProps} />
+        <line {...xAxisProps} style={styles.line} />
         <g>{xTicks}</g>
         <g>{xScale}</g>
-        <XAxisLabel {...xAxisLabelProps}>{xAxisLabel}</XAxisLabel>
+        <text {...xAxisLabelProps} style={styles.xAxisLabel}>{xAxisLabel}</text>
 
 
-        <Line {...yAxisProps} />
+        <line {...yAxisProps} style={styles.line} />
         <g>{yTicks}</g>
         <g>{yScale}</g>
-        <YAxisLabel {...yAxisLabelProps}>{yAxisLabel}</YAxisLabel>
+        <text {...yAxisLabelProps} style={styles.yAxisLabel}>{yAxisLabel}</text>
 
         {points}
       </svg>
