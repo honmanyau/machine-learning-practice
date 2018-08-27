@@ -196,12 +196,15 @@ function select(this: IDataframe, headers: Array<string | number>): IDataframe {
  * grouping conditions provided.
  * @param {conditions} headers An object whose keys are headers of the columns
  *     to be filtered and values are the values to filter with.
- * @returns {IDataframe}
+ * @returns {IDataframe} A new dataframe containing only entries that meet the
+ *     the filter conditions.
  */
 function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
+  const newDataframe = createDataframe(this.data);
 
-  this.data = this.data.filter((row) => (
+  newDataframe.headers = [...this.headers];
+  newDataframe.data = newDataframe.data.filter((row) => (
     headers.reduce((acc, header) => {
       const feature = conditions[header];
       const reference = row[this.headers.indexOf(header)];
@@ -210,7 +213,7 @@ function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
     }, true)
   ));
 
-  return this;
+  return newDataframe;
 }
 
 /**
@@ -347,25 +350,26 @@ function describe(this: IDataframe, dp: number | false = 4): object {
  * value is caculated using the formula {@code x' = (x - μ) / σ}, Where
  * {@code x'} is the scaled value, {@code x} the initial value, {@code μ} the
  * sample mean, and {@code σ} the sample standard deviation.
- * @returns {IDataframe} A dataframe object with standardised columns.
+ * @returns {IDataframe} A new dataframe object with standardised columns.
  */
 function standardise(this: IDataframe): IDataframe {
   const stats = disableConsole('table', () => this.describe(false));
+  const newDataframe = this.clone();
 
-  this.data.forEach((row: number[], rowIndex: number) => {
+  newDataframe.data.forEach((row: number[], rowIndex: number) => {
     row.forEach((feature: number, featureIndex: number) => {
-      const header = this.headers[featureIndex];
+      const header = newDataframe.headers[featureIndex];
 
       if (stats[header]) {
         const mean = stats[header].mean;
         const sd = stats[header].sd;
 
-        this.data[rowIndex][featureIndex] = (feature - mean) / sd;
+        newDataframe.data[rowIndex][featureIndex] = (feature - mean) / sd;
       }
     });
   });
 
-  return this;
+  return newDataframe;
 }
 
 /**
