@@ -1,24 +1,30 @@
 // ==============
 // == Examples ==
 // ==============
-// import * as fs from 'fs';
-//
-// const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
-// const iris = createDataframe(csv);
-//
-// iris.headers = [
-//   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
-// ];
-//
-// iris.describe();
-//
-// const setosa = iris.filter({ Species: 'setosa' });
-// const virginica = iris.filter({ Species: 'virginica' });
-// const versicolor = iris.filter({ Species: 'versicolor' });
-//
-// setosa.describe();
-// virginica.describe();
-// versicolor.describe();
+import * as fs from 'fs';
+
+const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
+const iris = createDataframe(csv);
+
+iris.headers = [
+  'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
+];
+
+iris.describe();
+
+const setosa = iris.filter({ Species: 'setosa' });
+const virginica = iris.filter({ Species: 'virginica' });
+const versicolor = iris.filter({ Species: 'versicolor' });
+
+setosa.describe();
+virginica.describe();
+versicolor.describe();
+
+setosa.describe();
+setosa.standardise();
+setosa.describe();
+setosa.destandardise();
+setosa.describe();
 
 // =============
 // == Exports ==
@@ -31,8 +37,12 @@ export { createDataframe };
 interface IDataframe {
   headers: string[];
   data: any[][];
+  standardised: boolean;
+  destandardisers?: Array<(feature: number) => number>;
+  // Methods
   clone: () => IDataframe;
   describe: (dp?: number | false) => object;
+  destandardise: () => void;
   filter: <T extends object>(filters: T) => IDataframe;
   head: (rows?: number) => void;
   print: (start?: number, end?: number) => void;
@@ -40,8 +50,8 @@ interface IDataframe {
   replace: (header: string, dictionary: object) => void;
   select: (names: Array<string | number>) => IDataframe;
   shuffle: () => void;
-  standardise: () => IDataframe;
-  standardize: () => IDataframe;
+  standardise: () => void;
+  standardize: () => void;
   tail: (rows?: number) => void;
   transpose: () => object;
 }
@@ -64,9 +74,12 @@ function createDataframe(input: string | any[][] = [[]]): IDataframe {
   const dataframe: IDataframe = {
     headers: [],
     data: [[]],
+    standardised: false,
+    destandardisers: undefined,
     // Methods
     clone,
     describe,
+    destandardise,
     filter,
     head,
     print,
@@ -354,24 +367,39 @@ function describe(this: IDataframe, dp: number | false = 4): object {
  * sample mean, and {@code σ} the sample standard deviation.
  * @returns {IDataframe} A new dataframe object with standardised columns.
  */
-function standardise(this: IDataframe): IDataframe {
-  const stats = disableConsole('table', () => this.describe(false));
-  const newDataframe = this.clone();
+function standardise(this: IDataframe): void {
+  if (this.standardised) {
+    throw new Error('Data already standardised!');
+  }
 
-  newDataframe.data.forEach((row: number[], rowIndex: number) => {
+  const stats = disableConsole('table', () => this.describe(false));
+
+  this.data.forEach((row: number[], rowIndex: number) => {
     row.forEach((feature: number, featureIndex: number) => {
-      const header = newDataframe.headers[featureIndex];
+      const header = this.headers[featureIndex];
 
       if (stats[header]) {
         const mean = stats[header].mean;
         const sd = stats[header].sd;
 
-        newDataframe.data[rowIndex][featureIndex] = (feature - mean) / sd;
+        this.data[rowIndex][featureIndex] = (feature - mean) / sd;
       }
     });
   });
 
-  return newDataframe;
+  this.standardised = true;
+  this.destandardisers = this.headers.map((header) => {
+    let destandardiser;
+
+    if (stats[header]) {
+      const mean = stats[header].mean;
+      const sd = stats[header].sd;
+
+      destandardiser = (value: number) => value * sd + mean;
+    }
+
+    return destandardiser;
+  });
 }
 
 /**
@@ -395,6 +423,8 @@ function clone(this: IDataframe): IDataframe {
   const newDataframe = createDataframe(this.data);
 
   newDataframe.headers = [...this.headers];
+  newDataframe.standardised = this.standardised;
+  newDataframe.destandardisers = this.destandardisers;
 
   return newDataframe;
 }
@@ -416,6 +446,28 @@ function replace(this: IDataframe, header: string, dictionary: object): void {
       }
     });
   });
+}
+
+/**
+ * This function reverts the changes made by the {@code standardise} method.
+ */
+function destandardise(): void {
+  if (!this.standardised) {
+    throw new Error('Dataframe has not been standardised!');
+  }
+
+  this.data.forEach((row: number[], rowIndex: number) => {
+    row.forEach((feature: number, featureIndex: number) => {
+      const destandardiser = this.destandardisers[featureIndex];
+
+      if (destandardiser) {
+        this.data[rowIndex][featureIndex] = destandardiser(feature);
+      }
+    });
+  });
+
+  this.standardised = false;
+  this.destandardisers = undefined;
 }
 
 // ======================
