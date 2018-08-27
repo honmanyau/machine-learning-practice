@@ -200,10 +200,8 @@ function select(this: IDataframe, headers: Array<string | number>): IDataframe {
  */
 function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
-  const newDataframe = createDataframe(this.data);
 
-  newDataframe.headers = [...this.headers];
-  newDataframe.data = newDataframe.data.filter((row) => (
+  this.data = this.data.filter((row) => (
     headers.reduce((acc, header) => {
       const feature = conditions[header];
       const reference = row[this.headers.indexOf(header)];
@@ -212,7 +210,7 @@ function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
     }, true)
   ));
 
-  return newDataframe;
+  return this;
 }
 
 /**
