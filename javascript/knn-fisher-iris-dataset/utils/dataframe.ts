@@ -37,6 +37,7 @@ interface IDataframe {
   head: (rows?: number) => void;
   print: (start?: number, end?: number) => void;
   readData: (input: string | any[][]) => void;
+  replace: (header: string, dictionary: object) => void;
   select: (names: Array<string | number>) => IDataframe;
   shuffle: () => void;
   standardise: () => IDataframe;
@@ -70,6 +71,7 @@ function createDataframe(input: string | any[][] = [[]]): IDataframe {
     head,
     print,
     readData,
+    replace,
     select,
     shuffle,
     standardise,
@@ -395,6 +397,25 @@ function clone(this: IDataframe): IDataframe {
   newDataframe.headers = [...this.headers];
 
   return newDataframe;
+}
+
+/**
+ * This function replaces the string values in a given column with the
+ * dictionary provided.
+ * @param {string} header The header of the column to operate on.
+ * @param {object} dictionary The dictionary containing the origina values as
+ *     keys and the new values as values.
+ */
+function replace(header: string, dictionary: object): void {
+  const headerIndex = this.headers.indexOf(header);
+
+  this.data.forEach((row) => {
+    row.forEach((feature, featureIndex) => {
+      if (featureIndex === headerIndex) {
+        row[headerIndex] = dictionary[feature];
+      }
+    });
+  });
 }
 
 // ======================
