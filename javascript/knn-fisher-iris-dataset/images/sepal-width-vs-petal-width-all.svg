@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="500px" width="500px" font-family="sans-serif">
+    <text x="50%" y="5%" style="font-size: 18px; text-anchor: middle;">Sepal Width vs. Petal Width of All Species</text>
+    <line x1="14%" x2="90%" y1="86%" y2="86%" style="stroke-width: 2px; stroke: black;"></line>
+    <g>
+        <line x1="14%" x2="14%" y1="86%" y2="87.2%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="29.2%" x2="29.2%" y1="86%" y2="87.2%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="44.4%" x2="44.4%" y1="86%" y2="87.2%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="59.599999999999994%" x2="59.599999999999994%" y1="86%" y2="87.2%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="74.8%" x2="74.8%" y1="86%" y2="87.2%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="90%" x2="90%" y1="86%" y2="87.2%" style="stroke-width: 2px; stroke: black;"></line>
+    </g>
+    <g>
+        <text x="14%" y="90%" style="text-anchor: middle; transform: translateX(0px);">0.1</text>
+        <text x="29.2%" y="90%" style="text-anchor: middle; transform: translateX(-1px);">0.6</text>
+        <text x="44.4%" y="90%" style="text-anchor: middle; transform: translateX(-1px);">1.1</text>
+        <text x="59.599999999999994%" y="90%" style="text-anchor: middle; transform: translateX(-1px);">1.5</text>
+        <text x="74.8%" y="90%" style="text-anchor: middle; transform: translateX(-1px);">2.0</text>
+        <text x="90%" y="90%" style="text-anchor: middle; transform: translateX(-1px);">2.5</text>
+    </g>
+    <text x="52%" y="97%" style="text-anchor: middle;">Petal Width</text>
+    <line x1="14%" x2="14%" y1="86%" y2="10%" style="stroke-width: 2px; stroke: black;"></line>
+    <g>
+        <line x1="14%" x2="12.8%" y1="86%" y2="86%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="14%" x2="12.8%" y1="70.8%" y2="70.8%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="14%" x2="12.8%" y1="55.6%" y2="55.6%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="14%" x2="12.8%" y1="40.400000000000006%" y2="40.400000000000006%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="14%" x2="12.8%" y1="25.200000000000003%" y2="25.200000000000003%" style="stroke-width: 2px; stroke: black;"></line>
+        <line x1="14%" x2="12.8%" y1="10%" y2="10%" style="stroke-width: 2px; stroke: black;"></line>
+    </g>
+    <g>
+        <text x="12%" y="86%" dy="0.32em" style="text-anchor: end; transform: translateX(0px);">2.0</text>
+        <text x="12%" y="70.8%" dy="0.32em" style="text-anchor: end; transform: translateX(1px);">2.5</text>
+        <text x="12%" y="55.6%" dy="0.32em" style="text-anchor: end; transform: translateX(1px);">3.0</text>
+        <text x="12%" y="40.400000000000006%" dy="0.32em" style="text-anchor: end; transform: translateX(1px);">3.4</text>
+        <text x="12%" y="25.200000000000003%" dy="0.32em" style="text-anchor: end; transform: translateX(1px);">3.9</text>
+        <text x="12%" y="10%" dy="0.32em" style="text-anchor: end; transform: translateX(1px);">4.4</text>
+    </g>
+    <text x="-48%" y="3%" style="text-anchor: middle; transform: rotateZ(-90deg);">Sepal Width</text>
+    <g>
+        <circle cx="17.166666666666668%" cy="38.50000000000001%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="54.333333333333336%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="48%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="51.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="35.33333333333334%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="25.833333333333343%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="57.500000000000014%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="14%" cy="51.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="32.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="14%" cy="54.333333333333336%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="14%" cy="54.333333333333336%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="22.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="10%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="25.833333333333343%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="38.50000000000001%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="29.00000000000002%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="29.00000000000002%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="32.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="35.33333333333334%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="26.666666666666668%" cy="44.83333333333334%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="54.333333333333336%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="38.50000000000001%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="48%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="51.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="14%" cy="19.500000000000014%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="16.333333333333343%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="51.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="48%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="38.50000000000001%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="14%" cy="35.33333333333334%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="54.333333333333336%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="41.66666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="38.50000000000001%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="76.5%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="48%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="29.833333333333336%" cy="38.50000000000001%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="23.500000000000004%" cy="29.00000000000002%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="20.333333333333332%" cy="54.333333333333336%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="29.00000000000002%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="48%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="32.16666666666667%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="17.166666666666668%" cy="44.83333333333334%" r="4" fill="rgba(65, 105, 225, 0.4)"></circle>
+        <circle cx="90%" cy="44.83333333333334%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="71%" cy="63.83333333333333%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="77.33333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="57.500000000000014%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="80.50000000000001%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="77.33333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="64.66666666666666%" cy="70.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="57.500000000000014%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="70.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="90%" cy="35.33333333333334%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="74.16666666666666%" cy="48%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="71%" cy="63.83333333333333%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="77.33333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="74.16666666666666%" cy="70.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="86.83333333333333%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="48%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="80.50000000000001%" cy="29.00000000000002%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="67%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="79.66666666666666%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="48%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="74.16666666666666%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="74.16666666666666%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="63.83333333333333%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="77.33333333333334%" cy="44.83333333333334%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="48%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="77.33333333333334%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="61.5%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="71%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="74.16666666666666%" cy="29.00000000000002%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="80.50000000000001%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="60.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="67%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="86.83333333333333%" cy="41.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="51.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="77.33333333333334%" cy="51.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="86.83333333333333%" cy="51.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="51.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="71%" cy="63.83333333333333%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="48%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="90%" cy="44.83333333333334%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="71%" cy="70.16666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="74.16666666666666%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="83.66666666666666%" cy="41.66666666666667%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="54.333333333333336%" r="4" fill="rgba(35, 142, 35, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="48%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="48%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="51.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="76.5%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="60.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="60.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="61.5%" cy="44.83333333333334%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="73.33333333333334%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="63.83333333333333%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="86%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="79.66666666666666%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="51.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="63.83333333333333%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="79.66666666666666%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="45.66666666666667%" cy="70.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="67.83333333333334%" cy="48%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="60.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="70.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="48.83333333333333%" cy="60.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="60.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="64.66666666666666%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="67%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="45.66666666666667%" cy="73.33333333333334%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="73.33333333333334%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="48.83333333333333%" cy="63.83333333333333%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="61.5%" cy="63.83333333333333%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="61.5%" cy="41.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="58.333333333333336%" cy="51.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="76.5%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="70.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="48.83333333333333%" cy="67%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="55.166666666666664%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="48.83333333333333%" cy="67%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="42.5%" cy="76.5%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="63.83333333333333%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="48.83333333333333%" cy="54.333333333333336%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="57.500000000000014%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="45.66666666666667%" cy="70.16666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+        <circle cx="52%" cy="60.66666666666667%" r="4" fill="rgba(255, 127, 0, 0.4)"></circle>
+    </g>
+</svg>
