@@ -31,7 +31,7 @@ export { createDataframe };
 interface IDataframe {
   headers: string[];
   data: any[][];
-  clone: () => IContainer;
+  clone: () => IDataframe;
   describe: (dp?: number | false) => object;
   filter: <T extends {}>(filters: T) => IDataframe;
   head: (rows?: number) => void;
@@ -352,26 +352,23 @@ function describe(this: IDataframe, dp: number | false = 4): object {
  * @returns {IDataframe} A dataframe object with standardised columns.
  */
 function standardise(this: IDataframe): IDataframe {
-    const stats = disableConsole('table', () => this.describe(false));
-    const selection = this.select(Object.keys(stats));
+  const newDataframe = this.clone();
+  const stats = disableConsole('table', () => newDataframe.describe(false));
 
-    if (!selection.data) {
-      console.warn('No data to standardise!');
-      console.trace();
-    }
-    else {
-      selection.data.forEach((row: number[], rowIndex: number) => {
-        row.forEach((feature: number, featureIndex: number) => {
-          const header = selection.headers[featureIndex];
-          const mean = stats[header].mean;
-          const sd = stats[header].sd;
+  newDataframe.data.forEach((row: number[], rowIndex: number) => {
+    row.forEach((feature: number, featureIndex: number) => {
+      const header = newDataframe.headers[featureIndex];
 
-          selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
-        });
-      });
-    }
+      if (stats[header]) {
+        const mean = stats[header].mean;
+        const sd = stats[header].sd;
 
-    return selection;
+        newDataframe.data[rowIndex][featureIndex] = (feature - mean) / sd;
+      }
+    });
+  });
+
+  return newDataframe;
 }
 
 /**
@@ -389,12 +386,12 @@ function shuffle(this: IDataframe): void {
 
 /**
  * This function creates a copy of a dataframe.
- * @returns {IContainer} A dataframe with deep-cloned data and headers.
+ * @returns {IDataframe} A dataframe with deep-cloned data and headers.
  */
-function clone(this: IDataframe): IContainer {
+function clone(this: IDataframe): IDataframe {
   const newDataframe = createDataframe(this.data);
 
-  newDataframe.headers = [this.headers];
+  newDataframe.headers = [...this.headers];
 
   return newDataframe;
 }
