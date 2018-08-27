@@ -194,14 +194,9 @@ All six possible feature combinations are visualised with scatter plots. *Iris s
 
 ![Sepal Length vs. Petal Length of All Species](./images/petal-length-vs-petal-width-all.svg)
 
+### KNN
 
-
-
-
-
-
-
-
+The [KNN algorithm](https://github.com/mljs/knn) in the ml.js machine learning suite is used.
 
 ## Documentation for dataframe.ts
 
@@ -426,6 +421,10 @@ Processes a CSV string or clones an array of arrays and assigns the result to `d
 #### Parameters
 
 * `input`—a CSV file that is read into memory as a string or an array of arrays, where each subarray corresponds to a row in the CSV data.
+
+### `dataframe.shuffle()`
+
+An implementation of the Durstenfeld shuffle algorithm for shuffling the entries in `dataframe.data`.
 
 ### `dataframe.standardise()`\/`dataframe.standardize()`
 
