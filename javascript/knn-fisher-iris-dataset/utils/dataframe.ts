@@ -373,8 +373,8 @@ function standardise(this: IDataframe): IDataframe {
 }
 
 /**
- * This function randomises the data in the dataframe and is an implementation
- * of the Durstenfeld shuffle algorithm.
+ * This function is an implementation of the Durstenfeld shuffle algorithm for
+ * shuffling the entries in {@code dataframe.data}.
  */
 function shuffle(this: IDataframe): void {
   // Reference: https://stackoverflow.com/questions/2450954/how-to-randomize
