@@ -31,6 +31,7 @@ export { createDataframe };
 interface IDataframe {
   headers: string[];
   data: any[][];
+  clone: () => IContainer;
   describe: (dp?: number | false) => object;
   filter: <T extends {}>(filters: T) => IDataframe;
   head: (rows?: number) => void;
@@ -63,6 +64,7 @@ function createDataframe(input: string | any[][] = [[]]): IDataframe {
     headers: [],
     data: [[]],
     // Methods
+    clone,
     describe,
     filter,
     head,
@@ -383,6 +385,18 @@ function shuffle(this: IDataframe): void {
       const j = Math.floor(Math.random() * (i + 1));
       [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
   }
+}
+
+/**
+ * This function creates a copy of a dataframe.
+ * @returns {IContainer} A dataframe with deep-cloned data and headers.
+ */
+function clone(this: IDataframe): IContainer {
+  const newDataframe = createDataframe(this.data);
+
+  newDataframe.headers = [this.headers];
+
+  return newDataframe;
 }
 
 // ======================
