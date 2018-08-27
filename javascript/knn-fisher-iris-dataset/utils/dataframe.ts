@@ -1,30 +1,30 @@
 // ==============
 // == Examples ==
 // ==============
-import * as fs from 'fs';
-
-const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
-const iris = createDataframe(csv);
-
-iris.headers = [
-  'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
-];
-
-iris.describe();
-
-const setosa = iris.filter({ Species: 'setosa' });
-const virginica = iris.filter({ Species: 'virginica' });
-const versicolor = iris.filter({ Species: 'versicolor' });
-
-setosa.describe();
-virginica.describe();
-versicolor.describe();
-
-setosa.describe();
-setosa.standardise();
-setosa.describe();
-setosa.destandardise();
-setosa.describe();
+// import * as fs from 'fs';
+//
+// const csv = fs.readFileSync(__dirname + '/test-data/all.csv', 'utf-8');
+// const iris = createDataframe(csv);
+//
+// iris.headers = [
+//   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
+// ];
+//
+// iris.describe();
+//
+// const setosa = iris.filter({ Species: 'setosa' });
+// const virginica = iris.filter({ Species: 'virginica' });
+// const versicolor = iris.filter({ Species: 'versicolor' });
+//
+// setosa.describe();
+// virginica.describe();
+// versicolor.describe();
+//
+// setosa.describe();
+// setosa.standardise();
+// setosa.describe();
+// setosa.destandardise();
+// setosa.describe();
 
 // =============
 // == Exports ==
@@ -51,7 +51,6 @@ interface IDataframe {
   select: (names: Array<string | number>) => IDataframe;
   shuffle: () => void;
   standardise: () => void;
-  standardize: () => void;
   tail: (rows?: number) => void;
   transpose: () => object;
 }
@@ -70,7 +69,6 @@ interface IDataframe {
  * @returns {IDataframe} A dataframe object.
  */
 function createDataframe(input: string | any[][] = [[]]): IDataframe {
-  const standardize = standardise;
   const dataframe: IDataframe = {
     headers: [],
     data: [[]],
@@ -88,7 +86,6 @@ function createDataframe(input: string | any[][] = [[]]): IDataframe {
     select,
     shuffle,
     standardise,
-    standardize,
     tail,
     transpose
   };
