@@ -29,7 +29,7 @@ const Container = styled.div`
   margin: 1em auto;
   padding: 1em 1.414em;
   width: 100%;
-  max-width: 800px;
+  max-width: 680px;
   border-radius: 4px;
   box-shadow: 0px 0px 4px 0px #CCC;
 `;
