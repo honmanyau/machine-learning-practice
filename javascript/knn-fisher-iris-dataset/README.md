@@ -168,27 +168,27 @@ All six possible feature combinations are visualised with scatter plots. *Iris s
 
 #### Sepal Length vs. Sepal Width of All Species
 
-![Sepal Length vs. Sepal Width of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-length-vs-sepal-width-all.svg)
+![Sepal Length vs. Sepal Width of All Species](./images/sepal-length-vs-sepal-width-all.svg)
 
 #### Sepal Length vs. Petal Length of All Species
 
-![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-length-vs-petal-length-all.svg)
+![Sepal Length vs. Petal Length of All Species](./images/sepal-length-vs-petal-length-all.svg)
 
 #### Sepal Length vs. Petal Width of All Species
 
-![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-length-vs-petal-length-all.svg)
+![Sepal Length vs. Petal Length of All Species](./images/sepal-length-vs-petal-length-all.svg)
 
 #### Sepal Width vs. Petal Length of All Species
 
-![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-width-vs-petal-length-all.svg)
+![Sepal Length vs. Petal Length of All Species](./images/sepal-width-vs-petal-length-all.svg)
 
 #### Sepal Width vs. Petal Width of All Species
 
-![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/sepal-width-vs-petal-width-all.svg)
+![Sepal Length vs. Petal Length of All Species](./images/sepal-width-vs-petal-width-all.svg)
 
 #### Petal Length vs. Petal Width of All Species
 
-![Sepal Length vs. Petal Length of All Species](https://raw.githubusercontent.com/honmanyau/machine-learning-practice/master/javascript/knn-fisher-iris-dataset/images/petal-length-vs-petal-width-all.svg)
+![Sepal Length vs. Petal Length of All Species](./images/petal-length-vs-petal-width-all.svg)
 
 
 
