@@ -406,7 +406,7 @@ function clone(this: IDataframe): IDataframe {
  * @param {object} dictionary The dictionary containing the origina values as
  *     keys and the new values as values.
  */
-function replace(header: string, dictionary: object): void {
+function replace(this: IDataframe, header: string, dictionary: object): void {
   const headerIndex = this.headers.indexOf(header);
 
   this.data.forEach((row) => {
