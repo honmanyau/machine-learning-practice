@@ -207,13 +207,12 @@ const Scatter: React.SFC<IScatterProps> = ({
         <g>{xScale}</g>
         <text {...xAxisLabelProps} style={styles.xAxisLabel}>{xAxisLabel}</text>
 
-
         <line {...yAxisProps} style={styles.line} />
         <g>{yTicks}</g>
         <g>{yScale}</g>
         <text {...yAxisLabelProps} style={styles.yAxisLabel}>{yAxisLabel}</text>
 
-        {points}
+        <g>{points}</g>
       </svg>
     </Container>
   );
