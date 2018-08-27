@@ -10,8 +10,12 @@
   * [Converting to CSV Format](#converting-to-csv-format)
 * [Data Integrity](#data-integrity)
 * [Data Analysis](#data-analysis)
+  * [Statistics Parameters of the Entire Dataset](#statistics-parameters-of-the-entire-dataset)
+  * [Statistics Parameters by Iris Species](#statistics-parameters-by-iris-species)
+  * [Visualisation of the Entire Dataset](#visualisation-of-the-entire-dataset)
 * [Documentation for dataframe.ts](#documentation-for-dataframets)
 * [Scatter Chart React Component](#scatter-chart-react-component)
+
 
 ## Introduction
 
@@ -162,7 +166,7 @@ versicolor.describe();
 */
 ```
 
-### Visualisation
+### Visualisation of the Entire Dataset
 
 All six possible feature combinations are visualised with scatter plots. *Iris setosa* appears to be distinctly different to *Iris virginica* and *Iris versicolor* in all cases. The data points between *Iris virginica* and *Iris versicolor* overlap to some degree in all cases, but the separation between the two are still statistically significant in all cases except for sepal length vs. sepal width.
 
