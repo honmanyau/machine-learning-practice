@@ -1,12 +1,13 @@
+// import KNN from 'ml-knn';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import iridData from './data/all';
+import irisData from './data/all';
 import { createDataframe } from './dataframe/dataframe';
 
 import Scatter from './Scatter';
 
-const iris = createDataframe(iridData);
+const iris = createDataframe(irisData);
 
 iris.headers = [
   'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
@@ -16,14 +17,61 @@ const setosa = iris.filter({ Species: 'setosa' });
 const virginica = iris.filter({ Species: 'virginica' });
 const versicolor = iris.filter({ Species: 'versicolor' });
 
-iris.describe();
-setosa.describe();
-virginica.describe();
-versicolor.describe();
+const setosaTransposed = setosa.transpose();
+const virginicaTransposed = virginica.transpose();
+const versicolorTransposed = versicolor.transpose();
 
-const setosaColumns = setosa.transpose();
-const virginicaColumns = virginica.transpose();
-const versicolorColumns = versicolor.transpose();
+// const iterations = 10000;
+//
+// for (let k = 1; k < 26; k++) {
+//   const rates = [];
+//   const init = window.performance.now();
+//
+//   for (let i = 0; i < iterations; i++) {
+//     const irisP = createDataframe(irisData);
+//
+//     irisP.headers = [
+//       'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
+//     ];
+//
+//     irisP.replace('Species', { setosa: 0, virginica: 1, versicolor: 2 });
+//     irisP.shuffle();
+//     irisP.standardise();
+//
+//     const halfCount = Math.floor(irisP.data.length / 2);
+//     const irisTraining = irisP.clone();
+//     const irisValidation = irisP.clone();
+//
+//     irisTraining.data.splice(0, halfCount);
+//     irisValidation.data.splice(halfCount);
+//
+//     const featureHeaders = [
+//       'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width'
+//     ];
+//     const labelHeader = 'Species';
+//     const irisTrainingFeatures = irisTraining.select(featureHeaders).data;
+//     const irisTrainingLabels = irisTraining.transpose()[labelHeader];
+//     const irisValidationFeatures = irisValidation.select(featureHeaders).data;
+//     const irisValidationLabels = irisValidation.transpose()[labelHeader];
+//
+//     const model = new KNN(irisTrainingFeatures, irisTrainingLabels, { k });
+//     const predicted = model.predict(irisValidationFeatures);
+//
+//     const correct = predicted.reduce((acc: number, value: number, index: number) => {
+//       return acc + Number(value === irisValidationLabels[index]);
+//     }, 0);
+//     const rate = correct / predicted.length;
+//
+//     rates.push(rate);
+//   }
+//
+//   console.log(`k = ${k}`);
+//   console.log(`${(window.performance.now() - init) / iterations} ms`);
+//
+//   const rateDataframe = createDataframe(rates.map(value => [value]));
+//
+//   rateDataframe.describe();
+// }
 
 const Container = styled.div`
   margin: 1em auto;
@@ -48,18 +96,18 @@ class App extends React.Component {
         <Scatter
           data={[
             {
-              x: setosaColumns['Sepal Width'],
-              y: setosaColumns['Sepal Length'],
+              x: setosaTransposed['Sepal Width'],
+              y: setosaTransposed['Sepal Length'],
               colour: colours.setosa
             },
             {
-              x: virginicaColumns['Sepal Width'],
-              y: virginicaColumns['Sepal Length'],
+              x: virginicaTransposed['Sepal Width'],
+              y: virginicaTransposed['Sepal Length'],
               colour: colours.virginica
             },
             {
-              x: versicolorColumns['Sepal Width'],
-              y: versicolorColumns['Sepal Length'],
+              x: versicolorTransposed['Sepal Width'],
+              y: versicolorTransposed['Sepal Length'],
               colour: colours.versicolor
             }
           ]}
@@ -71,18 +119,18 @@ class App extends React.Component {
         <Scatter
           data={[
             {
-              x: setosaColumns['Petal Length'],
-              y: setosaColumns['Sepal Length'],
+              x: setosaTransposed['Petal Length'],
+              y: setosaTransposed['Sepal Length'],
               colour: colours.setosa
             },
             {
-              x: virginicaColumns['Petal Length'],
-              y: virginicaColumns['Sepal Length'],
+              x: virginicaTransposed['Petal Length'],
+              y: virginicaTransposed['Sepal Length'],
               colour: colours.virginica
             },
             {
-              x: versicolorColumns['Petal Length'],
-              y: versicolorColumns['Sepal Length'],
+              x: versicolorTransposed['Petal Length'],
+              y: versicolorTransposed['Sepal Length'],
               colour: colours.versicolor
             }
           ]}
@@ -94,18 +142,18 @@ class App extends React.Component {
         <Scatter
           data={[
             {
-              x: setosaColumns['Petal Width'],
-              y: setosaColumns['Sepal Length'],
+              x: setosaTransposed['Petal Width'],
+              y: setosaTransposed['Sepal Length'],
               colour: colours.setosa
             },
             {
-              x: virginicaColumns['Petal Width'],
-              y: virginicaColumns['Sepal Length'],
+              x: virginicaTransposed['Petal Width'],
+              y: virginicaTransposed['Sepal Length'],
               colour: colours.virginica
             },
             {
-              x: versicolorColumns['Petal Width'],
-              y: versicolorColumns['Sepal Length'],
+              x: versicolorTransposed['Petal Width'],
+              y: versicolorTransposed['Sepal Length'],
               colour: colours.versicolor
             }
           ]}
@@ -117,18 +165,18 @@ class App extends React.Component {
         <Scatter
           data={[
             {
-              x: setosaColumns['Petal Length'],
-              y: setosaColumns['Sepal Width'],
+              x: setosaTransposed['Petal Length'],
+              y: setosaTransposed['Sepal Width'],
               colour: colours.setosa
             },
             {
-              x: virginicaColumns['Petal Length'],
-              y: virginicaColumns['Sepal Width'],
+              x: virginicaTransposed['Petal Length'],
+              y: virginicaTransposed['Sepal Width'],
               colour: colours.virginica
             },
             {
-              x: versicolorColumns['Petal Length'],
-              y: versicolorColumns['Sepal Width'],
+              x: versicolorTransposed['Petal Length'],
+              y: versicolorTransposed['Sepal Width'],
               colour: colours.versicolor
             }
           ]}
@@ -140,18 +188,18 @@ class App extends React.Component {
         <Scatter
           data={[
             {
-              x: setosaColumns['Petal Width'],
-              y: setosaColumns['Sepal Width'],
+              x: setosaTransposed['Petal Width'],
+              y: setosaTransposed['Sepal Width'],
               colour: colours.setosa
             },
             {
-              x: virginicaColumns['Petal Width'],
-              y: virginicaColumns['Sepal Width'],
+              x: virginicaTransposed['Petal Width'],
+              y: virginicaTransposed['Sepal Width'],
               colour: colours.virginica
             },
             {
-              x: versicolorColumns['Petal Width'],
-              y: versicolorColumns['Sepal Width'],
+              x: versicolorTransposed['Petal Width'],
+              y: versicolorTransposed['Sepal Width'],
               colour: colours.versicolor
             }
           ]}
@@ -163,18 +211,18 @@ class App extends React.Component {
         <Scatter
           data={[
             {
-              x: setosaColumns['Petal Width'],
-              y: setosaColumns['Petal Length'],
+              x: setosaTransposed['Petal Width'],
+              y: setosaTransposed['Petal Length'],
               colour: colours.setosa
             },
             {
-              x: virginicaColumns['Petal Width'],
-              y: virginicaColumns['Petal Length'],
+              x: virginicaTransposed['Petal Width'],
+              y: virginicaTransposed['Petal Length'],
               colour: colours.virginica
             },
             {
-              x: versicolorColumns['Petal Width'],
-              y: versicolorColumns['Petal Length'],
+              x: versicolorTransposed['Petal Width'],
+              y: versicolorTransposed['Petal Length'],
               colour: colours.versicolor
             }
           ]}
