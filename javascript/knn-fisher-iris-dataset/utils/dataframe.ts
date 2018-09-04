@@ -48,7 +48,7 @@ interface IDataframe {
   print: (start?: number, end?: number) => void;
   readData: (input: string | any[][]) => void;
   replace: (header: string, dictionary: object) => void;
-  select: (names: Array<string | number>) => IDataframe;
+  select: (headers: Array<string | number>) => IDataframe;
   shuffle: () => void;
   standardise: () => void;
   tail: (rows?: number) => void;
@@ -186,7 +186,7 @@ function tail(this: IDataframe, rows: number = 5): void {
 
 /**
  * This function selects the column with the column heading(s) or index/indices
- * given and returns a data object containing those columns.
+ * given and returns a new data object containing those columns.
  * @param {string[]|number[]} headers An array of column headings or indices.
  * @returns {object} A data dataframe object with only the selected columns.
  */
@@ -427,7 +427,7 @@ function clone(this: IDataframe): IDataframe {
 }
 
 /**
- * This function replaces the string values in a given column with the
+ * This function replaces the string values in a given column according to the
  * dictionary provided.
  * @param {string} header The header of the column to operate on.
  * @param {object} dictionary The dictionary containing the origina values as
