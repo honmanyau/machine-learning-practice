@@ -9,15 +9,20 @@ export { createDataframe };
 interface IDataframe {
   headers: string[];
   data: any[][];
+  standardised: boolean;
+  destandardisers?: Array<((feature: number) => number) | undefined>;
+  // Methods
+  clone: () => IDataframe;
   describe: (dp?: number | false) => object;
-  filter: <T extends {}>(filters: T) => IDataframe;
+  destandardise: () => void;
+  filter: <T extends object>(filters: T) => IDataframe;
   head: (rows?: number) => void;
   print: (start?: number, end?: number) => void;
   readData: (input: string | any[][]) => void;
+  replace: (header: string, dictionary: object) => void;
   select: (names: Array<string | number>) => IDataframe;
   shuffle: () => void;
-  standardise: () => IDataframe;
-  standardize: () => IDataframe;
+  standardise: () => void;
   tail: (rows?: number) => void;
   transpose: () => object;
 }
@@ -36,20 +41,23 @@ interface IDataframe {
  * @returns {IDataframe} A dataframe object.
  */
 function createDataframe(input: string | any[][] = [[]]): IDataframe {
-  const standardize = standardise;
   const dataframe: IDataframe = {
     headers: [],
     data: [[]],
+    standardised: false,
+    destandardisers: undefined,
     // Methods
+    clone,
     describe,
+    destandardise,
     filter,
     head,
     print,
     readData,
+    replace,
     select,
     shuffle,
     standardise,
-    standardize,
     tail,
     transpose
   };
@@ -152,7 +160,7 @@ function tail(this: IDataframe, rows: number = 5): void {
  * This function selects the column with the column heading(s) or index/indices
  * given and returns a data object containing those columns.
  * @param {string[]|number[]} headers An array of column headings or indices.
- * @returns {{}} A data dataframe object with only the selected columns.
+ * @returns {object} A data dataframe object with only the selected columns.
  */
 function select(this: IDataframe, headers: Array<string | number>): IDataframe {
   const indices = convertToIndices(headers, this.headers);
@@ -172,9 +180,10 @@ function select(this: IDataframe, headers: Array<string | number>): IDataframe {
  * grouping conditions provided.
  * @param {conditions} headers An object whose keys are headers of the columns
  *     to be filtered and values are the values to filter with.
- * @returns {IDataframe}
+ * @returns {IDataframe} A new dataframe containing only entries that meet the
+ *     the filter conditions.
  */
-function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
+function filter<T extends object>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
   const newDataframe = createDataframe(this.data);
 
@@ -194,7 +203,7 @@ function filter<T extends {}>(this: IDataframe, conditions: T): IDataframe {
 /**
  * This function returns an array of features for each of the columns in
  * {@code this.data}.
- * @returns {{}} An object of which each property corresponds to a header in
+ * @returns {object} An object of which each property corresponds to a header in
  *     {@code dataframe.headers} and its values is an array of the corresponding
  *     values in {@code dataframe.data}.
  */
@@ -228,7 +237,7 @@ function transpose(this: IDataframe): object {
  *     since the string produced by {@code toFixed()} is converted back to a
  *     number using {@code }Number()}. If {@code false} is given, no rounding
  *     will occur.
- * @return {{}}
+ * @return {object} A object containing details of the summary.
  */
 function describe(this: IDataframe, dp: number | false = 4): object {
   // Columns that are not numeric will be undefined, which is used as a flag
@@ -325,34 +334,46 @@ function describe(this: IDataframe, dp: number | false = 4): object {
  * value is caculated using the formula {@code x' = (x - μ) / σ}, Where
  * {@code x'} is the scaled value, {@code x} the initial value, {@code μ} the
  * sample mean, and {@code σ} the sample standard deviation.
- * @returns {IDataframe} A dataframe object with standardised columns.
+ * @returns {IDataframe} A new dataframe object with standardised columns.
  */
-function standardise(this: IDataframe): IDataframe {
-    const stats = disableConsole('table', () => this.describe(false));
-    const selection = this.select(Object.keys(stats));
+function standardise(this: IDataframe): void {
+  if (this.standardised) {
+    throw new Error('Data already standardised!');
+  }
 
-    if (!selection.data) {
-      console.warn('No data to standardise!');
-      console.trace();
+  const stats = disableConsole('table', () => this.describe(false));
+
+  this.data.forEach((row: number[], rowIndex: number) => {
+    row.forEach((feature: number, featureIndex: number) => {
+      const header = this.headers[featureIndex];
+
+      if (stats[header]) {
+        const mean = stats[header].mean;
+        const sd = stats[header].sd;
+
+        this.data[rowIndex][featureIndex] = (feature - mean) / sd;
+      }
+    });
+  });
+
+  this.standardised = true;
+  this.destandardisers = this.headers.map((header) => {
+    let destandardiser;
+
+    if (stats[header]) {
+      const mean = stats[header].mean;
+      const sd = stats[header].sd;
+
+      destandardiser = (value: number) => value * sd + mean;
     }
-    else {
-      selection.data.forEach((row: number[], rowIndex: number) => {
-        row.forEach((feature: number, featureIndex: number) => {
-          const header = selection.headers[featureIndex];
-          const mean = stats[header].mean;
-          const sd = stats[header].sd;
 
-          selection.data[rowIndex][featureIndex] = (feature - mean) / sd;
-        });
-      });
-    }
-
-    return selection;
+    return destandardiser;
+  });
 }
 
 /**
- * This function randomises the data in the dataframe and is an implementation
- * of the Durstenfeld shuffle algorithm.
+ * This function is an implementation of the Durstenfeld shuffle algorithm for
+ * shuffling the entries in {@code dataframe.data}.
  */
 function shuffle(this: IDataframe): void {
   // Reference: https://stackoverflow.com/questions/2450954/how-to-randomize
@@ -361,6 +382,61 @@ function shuffle(this: IDataframe): void {
       const j = Math.floor(Math.random() * (i + 1));
       [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
   }
+}
+
+/**
+ * This function creates a copy of a dataframe.
+ * @returns {IDataframe} A dataframe with deep-cloned data and headers.
+ */
+function clone(this: IDataframe): IDataframe {
+  const newDataframe = createDataframe(this.data);
+
+  newDataframe.headers = [...this.headers];
+  newDataframe.standardised = this.standardised;
+  newDataframe.destandardisers = this.destandardisers;
+
+  return newDataframe;
+}
+
+/**
+ * This function replaces the string values in a given column with the
+ * dictionary provided.
+ * @param {string} header The header of the column to operate on.
+ * @param {object} dictionary The dictionary containing the origina values as
+ *     keys and the new values as values.
+ */
+function replace(this: IDataframe, header: string, dictionary: object): void {
+  const headerIndex = this.headers.indexOf(header);
+
+  this.data.forEach((row) => {
+    row.forEach((feature, featureIndex) => {
+      if (featureIndex === headerIndex) {
+        row[headerIndex] = dictionary[feature];
+      }
+    });
+  });
+}
+
+/**
+ * This function reverts the changes made by the {@code standardise} method.
+ */
+function destandardise(this: IDataframe): void {
+  if (!this.standardised) {
+    throw new Error('Dataframe has not been standardised!');
+  }
+
+  this.data.forEach((row: number[], rowIndex: number) => {
+    row.forEach((feature: number, featureIndex: number) => {
+      const destandardiser = (this.destandardisers as any[])[featureIndex];
+
+      if (destandardiser) {
+        this.data[rowIndex][featureIndex] = destandardiser(feature);
+      }
+    });
+  });
+
+  this.standardised = false;
+  this.destandardisers = undefined;
 }
 
 // ======================
