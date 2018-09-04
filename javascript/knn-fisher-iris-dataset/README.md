@@ -196,7 +196,72 @@ All six possible feature combinations are visualised with scatter plots. *Iris s
 
 ### KNN
 
-The [KNN algorithm](https://github.com/mljs/knn) in the ml.js machine learning suite is used.
+#### Converting Non-numeric Features
+
+The non-numeric features `Species` was converted using `dataset.replace()`:
+
+|  Species   | Integer |
+| ---------- | ------- |
+| Setosa     | 0       |
+| Virginica  | 1       |
+| Versicolor | 2       |
+
+#### Data Shuffling
+
+Data was shuffled using `dataframe.shuffle()` (pseudo-random as `Math.random()` is used, which is an implementation of the Durstenfeld shuffle algorithm.
+
+### Feature Scaling
+
+Each of the features were scaled through [feature standardisation](https://en.wikipedia.org/wiki/Feature_scaling#Standardization) to have (as close as possible) zero-mean and unit variance using `dataframe.standardise()`.
+
+### Dataset Splitting
+
+After shuffling and scaling, the dataset was split into two halves (75 data points each), one being the training set and the other the validation set.
+
+It is worth noting that since the dataset is shuffled every time the code is run and that the dataset is of limited size, one would expect variation in prediction accuracy each time the code is compiled, which was indeed observed (discussion below).
+
+### Machine Learning with the KNN Algorithm
+
+The [KNN algorithm](https://github.com/mljs/knn) in the ml.js machine learning suite was used. Starting with a `k` value of `1`, the accuracy (number of true positives divided by the size of the validations set) was initially observed to vary in the range of 89–97%.
+
+Running the code for 10000 iterations (4–5 ms per iteration in Firefox Developer Edition with a 2.8 GHz Intel® Core™ i7-4558U) at `k` equals to `1` resulted in the following unique (before rounding) accuracies: **100%, 99%, 97%, 96%, 95%, 93%, 92%, 91%, 89%, 88%, 87%, 85%, 84%, 83** (it just happens to be the case that the same accuracy is not observed after rounding). A summary of the statics for 10000 iterations are as follows:
+
+```javascript
+/*
+┌──────────────┬───────┬──────-─┬──────────┬────────┬────────┬─────┐
+│   (index)    │ count │  mean  │ variance │   sd   │  min   │ max │
+├──────────────┼───────┼─────-──┼──────────┼────────┼────────┼─────┤
+│ Iterations   │ 10000 │ 0.9361 │  0.0005  │ 0.0227 │ 0.8267 │  1  │
+└──────────────┴───────┴──────-─┴──────────┴────────┴────────┴─────┘
+*/
+```
+
+The results for different values of `k` is as summarised below:
+
+│ k  │ count │  mean  │ variance │   sd   │  min   │ max │
+| -- | ----- | ------ | -------- | ------ | ------ | --- |
+│ 1  │ 10000 │ 0.9361 │  0.0005  │ 0.0227 │ 0.8267 │  1  │
+│ 2  │ 10000 │ 0.9203 │  0.0008  │ 0.0275 │ 0.7867 │  1  │
+│ 3  │ 10000 │ 0.9425 │  0.0005  │ 0.0230 │ 0.8267 │  1  │
+│ 4  │ 10000 │ 0.9371 │  0.0007  │ 0.0259 │ 0.8000 │  1  │
+│ 5  │ 10000 │ 0.9462 │  0.0006  │ 0.0237 │ 0.7867 │  1  │
+│ 6  │ 10000 │ 0.9411 │  0.0007  │ 0.0258 │ 0.7867 │  1  │
+│ 7  │ 10000 │ 0.9473 │  0.0006  │ 0.0248 │ 0.8000 │  1  │
+│ 8  │ 10000 │ 0.9404 │  0.0008  │ 0.0288 │ 0.7733 │  1  │
+│ 9  │ 10000 │ 0.9453 │  0.0007  │ 0.0270 │ 0.7867 │  1  │
+│ 10 │ 10000 │ 0.9390 |  0.0009  | 0.0295 | 0.7733 |  1  |
+│ 11 │ 10000 │ 0.9399 │  0.0009  │ 0.0299 │ 0.7867 │  1  │
+│ 12 │ 10000 │ 0.9294 │  0.0012  │ 0.0343 │ 0.7200 │  1  │
+│ 13 │ 10000 │ 0.9344 │  0.0012  │ 0.0343 │ 0.6133 │  1  │
+│ 14 │ 10000 │ 0.9236 │  0.0014  │ 0.0379 │ 0.7333 │  1  │
+│ 15 │ 10000 │ 0.9254 │  0.0014  │ 0.0377 │ 0.7333 │  1  │
+│ 16 │ 10000 │ 0.9129 │  0.0017  │ 0.0407 │ 0.6800 │  1  │
+│ 17 │ 10000 │ 0.9172 │  0.0015  │ 0.0389 │ 0.7333 │  1  │
+│ 18 │ 10000 │ 0.9208 │  0.0017  │ 0.0408 │ 0.6800 │  1  │
+│ 19 │ 10000 │ 0.9066 │  0.0016  │ 0.0404 │ 0.7200 │  1  │
+│ 20 │ 10000 │ 0.8951 │  0.0016  │ 0.0394 │ 0.6933 │  1  │
+
+The accuracy of the classifier starts to decrease as `k` increases to around `9`, which is consistent with the fact that the signal-to-noise ratio reduces as `k` increases. In those cases, most models produced have reasonable accuracies of > 90%. One thing worth noting is that the [Juypter notebook reference](https://github.com/MicrosoftLearning/Principles-of-Machine-Learning-Python/blob/master/Module1/IntroductionToMachineLearning.ipynb) produces a model with an accuracy of 96% for `k` equals to `3`, which does not appear to vary with repeated runs of the code; I don't seem to be able to spot anything that's hard-coded in the notebook but I don't seem to be able to spot why it doesn't vary either.
 
 ## Documentation for dataframe.ts
 
