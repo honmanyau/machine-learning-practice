@@ -432,6 +432,14 @@ dataframe
 // └─────────┴──────────────┴──────────────┴──────────┘
 ```
 
+### `dataframe.clone()`
+
+Creates a copy of a dataframe where `dataframe.headers` and `dataframe.data` are deep clones of the original.
+
+#### Return value
+
+A new dataframe containing deep-cloned headers and data of the original.
+
 ### `dataframe.describe([*dp*])`
 
 Creates a summary of the statistics of numeric data in the dataframe, which is printed to the console as a table and returned as a object for further manipulation. The metrics reported are:
@@ -449,6 +457,10 @@ Creates a summary of the statistics of numeric data in the dataframe, which is p
 #### Return value
 
 The object used to construct the table seen in the console.
+
+### `dataframe.destandardise()`
+
+Reverts changes to the data made by `dataframe.standardise()`.
 
 ### `dataframe.filter(conditions)`
 
@@ -486,6 +498,23 @@ Processes a CSV string or clones an array of arrays and assigns the result to `d
 #### Parameters
 
 * `input`—a CSV file that is read into memory as a string or an array of arrays, where each subarray corresponds to a row in the CSV data.
+
+### `dataframe.replace(header, dictionary)`
+
+Replaces the string values in a given column according to the dictionary provided.
+
+#### Parameters
+
+* `header`—the header of the column to operate on as a string.
+* `dictionary`—an object whose keys are strings to be replaced with the corresponding values.
+
+### `dataframe.select(headers)`
+
+Selects the columns with the column headers or index/indices given and returns a new data object containing those columns.
+
+#### Parameters
+
+* `headers`—an array of column headers or indices.
 
 ### `dataframe.shuffle()`
 
