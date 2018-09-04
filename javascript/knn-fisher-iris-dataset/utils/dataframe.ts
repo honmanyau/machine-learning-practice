@@ -192,7 +192,7 @@ function tail(this: IDataframe, rows: number = 5): void {
  */
 function select(this: IDataframe, headers: Array<string | number>): IDataframe {
   const indices = convertToIndices(headers, this.headers);
-  const newDataframe = createDataframe(this.data);
+  const newDataframe = this.clone();
   const filterByIndex = (value: string, index: number) => ~indices.indexOf(index);
   const newHeaders = this.headers.filter(filterByIndex);
   const newData = newDataframe.data.map((row) => row.filter(filterByIndex));
@@ -213,8 +213,8 @@ function select(this: IDataframe, headers: Array<string | number>): IDataframe {
  */
 function filter<T extends object>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
-  const newDataframe = createDataframe(this.data);
-
+  const newDataframe = this.clone();
+  console.log(newDataframe.destandardisers);
   newDataframe.headers = [...this.headers];
   newDataframe.data = newDataframe.data.filter((row) => (
     headers.reduce((acc, header) => {
