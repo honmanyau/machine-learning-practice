@@ -238,10 +238,8 @@ Running the code for 10000 iterations (4–5 ms per iteration in Firefox Develop
 
 The results for different values of `k` is as summarised in **Table 1**:
 
-<small>
-  <strong>Table 1</strong>.&nbsp;
-  Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split (75 entries per set with random contribution from the iris species. Each row is the result of 10000 iterations.
-</small>
+**Table 1**. Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split (75 entries per set with random contribution from the iris species. Each row is the result of 10000 iterations.
+
 │ k  │ count │  mean  │ variance │   sd   │  min   │ max │
 | -- | ----- | ------ | -------- | ------ | ------ | --- |
 | 1  | 10000 | 93.61  |  5.18    |  2.28  | 82.67  | 100 |
@@ -267,10 +265,8 @@ The results for different values of `k` is as summarised in **Table 1**:
 
 The accuracy of the classifier starts to decrease as `k` increases to around `9`, which is consistent with the fact that the signal-to-noise ratio reduces as `k` increases. In those cases, most models produced have reasonable accuracies of > 90%. Balancing the contribution of data from each species leads to consistently more accurate (albeit small) models
 
-<small>
-  <strong>Table 2</strong>.&nbsp;
-  Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split. There are 75 entries in both set with equal contribution from each iris species. Each row is the result of 10000 iterations.
-</small>
+**Table 2**.Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split. There are 75 entries in both set with equal contribution from each iris species. Each row is the result of 10000 iterations.
+
 │ k  │ count │  mean  │ variance │   sd   │  min   │ max │
 | -- | ----- | ------ | -------- | ------ | ------ | --- |
 | 1  | 10000 | 93.71  |   4.77   |  2.18  | 84.00  | 100 |
