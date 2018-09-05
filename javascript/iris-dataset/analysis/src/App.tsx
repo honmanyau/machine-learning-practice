@@ -25,10 +25,11 @@ const setosaTransposed = setosa.transpose();
 const virginicaTransposed = virginica.transpose();
 const versicolorTransposed = versicolor.transpose();
 
-// ==================================
-// == KNN Training and Prediction ===
-// ==================================
-ml();
+// =======================
+// == Machine Learning ===
+// =======================
+// ml.knn();
+ml.nn();
 
 // ============
 // == React ===

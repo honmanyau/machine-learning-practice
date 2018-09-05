@@ -1,13 +1,13 @@
 import KNN from 'ml-knn';
 
-import irisData from './data/all';
-import { createDataframe } from './dataframe/dataframe';
+import irisData from '../data/all';
+import { createDataframe } from '../dataframe/dataframe';
 
-function ml() {
+function knn(): void {
   // ====================
   // == Configurations ==
   // ====================
-  const iterations = 2;
+  const iterations = 1;
   const kMin = 1;
   const kMax = 21;
   const trainingSize = 0.7;
@@ -103,4 +103,4 @@ function ml() {
   console.log(`Finished! ${window.performance.now() - tinit} ms.`);
 }
 
-export default ml;
+export default knn;
