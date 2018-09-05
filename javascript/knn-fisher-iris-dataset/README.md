@@ -261,7 +261,7 @@ The results for different values of `k` is as summarised in **Table 1**:
 | 19 | 10000 | 90.64  |  16.01   |  4.00  | 60.00 | 100 |
 | 20 | 10000 | 89.50  |  15.94   |  3.99  | 64.00 | 100 |
 
-The accuracy of the classifier starts to decrease as `k` increases to around `9`, which is consistent with the fact that the signal-to-noise ratio reduces as `k` increases. In those cases, most models produced have reasonable accuracies of > 90%. Balancing the contribution of data from each species leads to consistently more accurate (albeit small) models
+The accuracy of the classifier starts to decrease as `k` increases to around `9`, which is consistent with the fact that the signal-to-noise ratio reduces as `k` increases. In those cases, most models produced have reasonable accuracies of > 90%. Balancing the contribution of data from each species leads to consistently more accurate (albeit small) models as can be seen in **Table 2**.
 
 **Table 2**.Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split. There are 75 entries in both set with equal contribution from each iris species. Each row is the result of 10000 iterations.
 
