@@ -5,8 +5,12 @@ import styled from 'styled-components';
 import irisData from './data/all';
 import { createDataframe } from './dataframe/dataframe';
 
+import ml from './ml';
 import Scatter from './Scatter';
 
+// =============================
+// == Data for Visualisation ===
+// =============================
 const iris = createDataframe(irisData);
 
 iris.headers = [
@@ -21,58 +25,14 @@ const setosaTransposed = setosa.transpose();
 const virginicaTransposed = virginica.transpose();
 const versicolorTransposed = versicolor.transpose();
 
-// const iterations = 10000;
-//
-// for (let k = 1; k < 26; k++) {
-//   const rates = [];
-//   const init = window.performance.now();
-//
-//   for (let i = 0; i < iterations; i++) {
-//     const irisP = createDataframe(irisData);
-//
-//     irisP.headers = [
-//       'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width', 'Species'
-//     ];
-//
-//     irisP.replace('Species', { setosa: 0, virginica: 1, versicolor: 2 });
-//     irisP.shuffle();
-//     irisP.standardise();
-//
-//     const halfCount = Math.floor(irisP.data.length / 2);
-//     const irisTraining = irisP.clone();
-//     const irisValidation = irisP.clone();
-//
-//     irisTraining.data.splice(0, halfCount);
-//     irisValidation.data.splice(halfCount);
-//
-//     const featureHeaders = [
-//       'Sepal Length', 'Sepal Width', 'Petal Length', 'Petal Width'
-//     ];
-//     const labelHeader = 'Species';
-//     const irisTrainingFeatures = irisTraining.select(featureHeaders).data;
-//     const irisTrainingLabels = irisTraining.transpose()[labelHeader];
-//     const irisValidationFeatures = irisValidation.select(featureHeaders).data;
-//     const irisValidationLabels = irisValidation.transpose()[labelHeader];
-//
-//     const model = new KNN(irisTrainingFeatures, irisTrainingLabels, { k });
-//     const predicted = model.predict(irisValidationFeatures);
-//
-//     const correct = predicted.reduce((acc: number, value: number, index: number) => {
-//       return acc + Number(value === irisValidationLabels[index]);
-//     }, 0);
-//     const rate = correct / predicted.length;
-//
-//     rates.push(rate);
-//   }
-//
-//   console.log(`k = ${k}`);
-//   console.log(`${(window.performance.now() - init) / iterations} ms`);
-//
-//   const rateDataframe = createDataframe(rates.map(value => [value]));
-//
-//   rateDataframe.describe();
-// }
+// ==================================
+// == KNN Training and Prediction ===
+// ==================================
+ml();
 
+// ============
+// == React ===
+// ============
 const Container = styled.div`
   margin: 1em auto;
   padding: 1em 1.414em;
