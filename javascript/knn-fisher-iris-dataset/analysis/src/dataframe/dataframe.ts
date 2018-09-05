@@ -186,7 +186,7 @@ function select(this: IDataframe, headers: Array<string | number>): IDataframe {
 function filter<T extends object>(this: IDataframe, conditions: T): IDataframe {
   const headers = Object.keys(conditions);
   const newDataframe = this.clone();
-  console.log(newDataframe.destandardisers);
+
   newDataframe.headers = [...this.headers];
   newDataframe.data = newDataframe.data.filter((row) => (
     headers.reduce((acc, header) => {
