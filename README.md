@@ -11,4 +11,5 @@ This repository contains machine learning-related practice. As they are only don
 
 ## JavaScript
 
-* [KNN Classification of Fisher's Iris Dataset](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/knn-fisher-iris-dataset)
+* [KNN Classification of Fisher's Iris Dataset](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/iris-dataset-knn)
+* [Neural Network Classification of Fisher's Iris Dataset](https://github.com/honmanyau/machine-learning-practice/tree/master/javascript/iris-dataset-nn)
