@@ -226,49 +226,47 @@ The [KNN algorithm](https://github.com/mljs/knn) in the ml.js machine learning s
 
 Running the code for 10000 iterations (4–5 ms per iteration in Firefox Developer Edition with a 2.8 GHz Intel® Core™ i7-4558U) at `k` equals to `1` resulted in the following unique (before rounding) accuracies: **100%, 99%, 97%, 96%, 95%, 93%, 92%, 91%, 89%, 88%, 87%, 85%, 84%, 83** (it just happens to be the case that the same accuracy is not observed after rounding). A summary of the statics for 10000 iterations are as follows:
 
-```javascript
-/*
-┌──────────────┬───────┬──────-─┬──────────┬────────┬────────┬─────┐
+```
+┌──────────────┬───────┬────────┬──────────┬────────┬────────┬─────┐
 │   (index)    │ count │  mean  │ variance │   sd   │  min   │ max │
-├──────────────┼───────┼─────-──┼──────────┼────────┼────────┼─────┤
+├──────────────┼───────┼────────┼──────────┼────────┼────────┼─────┤
 │ Iterations   │ 10000 │ 0.9361 │  0.0005  │ 0.0227 │ 0.8267 │  1  │
-└──────────────┴───────┴──────-─┴──────────┴────────┴────────┴─────┘
-*/
+└──────────────┴───────┴────────┴──────────┴────────┴────────┴─────┘
 ```
 
 The results for different values of `k` is as summarised in **Table 1**:
 
 **Table 1**. Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split (75 entries per set with random contribution from the iris species. Each row is the result of 10000 iterations.
 
-│ k  │ count │  mean  │ variance │   sd   │  min   │ max │
-| -- | ----- | ------ | -------- | ------ | ------ | --- |
-| 1  | 10000 | 93.61  |  5.18    |  2.28  | 82.67  | 100 |
-| 2  | 10000 | 92.07  |  7.38    |  2.72  | 81.33  | 100 |
-| 3  | 10000 | 94.20  |  5.39    |  2.32  | 81.33  | 100 |
-| 4  | 10000 | 93.74  |  6.77    |  2.60  | 80.00  | 100 |
-| 5  | 10000 | 94.60  |  5.70    |  2.39  | 82.67  | 100 |
-| 6  | 10000 | 94.14  |  6.64    |  2.58  | 77.33  | 100 |
-| 7  | 10000 | 94.75  |  6.08    |  2.47  | 80.00  | 100 |
-| 8  | 10000 | 94.07  |  8.00    |  2.83  | 76.00  | 100 |
-| 9  | 10000 | 94.53  |  7.12    |  2.67  | 77.33  | 100 |
-| 10 | 10000 | 93.91  |  8.97    |  2.99  | 68.00  | 100 |
-| 11 | 10000 | 93.96  |  8.98    |  3.00  | 80.00  | 100 |
-| 12 | 10000 | 92.86  |  12.05   |  3.47  | 77.33  | 100 |
-| 13 | 10000 | 93.33  |  11.26   |  3.36  | 78.67  | 100 |
-| 14 | 10000 | 92.39  |  13.92   |  3.73  | 74.67  | 100 |
-| 15 | 10000 | 92.61  |  13.67   |  3.70  | 76.00  | 100 |
-| 16 | 10000 | 91.16  |  16.60   |  4.07  | 73.33  | 100 |
-| 17 | 10000 | 91.64  |  15.77   |  3.97  | 69.33  | 100 |
-| 18 | 10000 | 90.28  |  16.54   |  4.07  | 66.67  | 100 |
-| 19 | 10000 | 90.64  |  16.01   |  4.00  | 60.00  | 100 |
-| 20 | 10000 | 89.50  |  15.94   |  3.99  | 64.00  | 100 |
+| k  | count |  mean  | variance |   sd   |  min  | max |
+| -- | ----- | ------ | -------- | ------ | ----- | --- |
+| 1  | 10000 | 93.61  |  5.18    |  2.28  | 82.67 | 100 |
+| 2  | 10000 | 92.07  |  7.38    |  2.72  | 81.33 | 100 |
+| 3  | 10000 | 94.20  |  5.39    |  2.32  | 81.33 | 100 |
+| 4  | 10000 | 93.74  |  6.77    |  2.60  | 80.00 | 100 |
+| 5  | 10000 | 94.60  |  5.70    |  2.39  | 82.67 | 100 |
+| 6  | 10000 | 94.14  |  6.64    |  2.58  | 77.33 | 100 |
+| 7  | 10000 | 94.75  |  6.08    |  2.47  | 80.00 | 100 |
+| 8  | 10000 | 94.07  |  8.00    |  2.83  | 76.00 | 100 |
+| 9  | 10000 | 94.53  |  7.12    |  2.67  | 77.33 | 100 |
+| 10 | 10000 | 93.91  |  8.97    |  2.99  | 68.00 | 100 |
+| 11 | 10000 | 93.96  |  8.98    |  3.00  | 80.00 | 100 |
+| 12 | 10000 | 92.86  |  12.05   |  3.47  | 77.33 | 100 |
+| 13 | 10000 | 93.33  |  11.26   |  3.36  | 78.67 | 100 |
+| 14 | 10000 | 92.39  |  13.92   |  3.73  | 74.67 | 100 |
+| 15 | 10000 | 92.61  |  13.67   |  3.70  | 76.00 | 100 |
+| 16 | 10000 | 91.16  |  16.60   |  4.07  | 73.33 | 100 |
+| 17 | 10000 | 91.64  |  15.77   |  3.97  | 69.33 | 100 |
+| 18 | 10000 | 90.28  |  16.54   |  4.07  | 66.67 | 100 |
+| 19 | 10000 | 90.64  |  16.01   |  4.00  | 60.00 | 100 |
+| 20 | 10000 | 89.50  |  15.94   |  3.99  | 64.00 | 100 |
 
 The accuracy of the classifier starts to decrease as `k` increases to around `9`, which is consistent with the fact that the signal-to-noise ratio reduces as `k` increases. In those cases, most models produced have reasonable accuracies of > 90%. Balancing the contribution of data from each species leads to consistently more accurate (albeit small) models
 
 **Table 2**.Statistic parameters for `k` between `1` and `20` (inclusive) using a 50%-50% training-validation split. There are 75 entries in both set with equal contribution from each iris species. Each row is the result of 10000 iterations.
 
-│ k  │ count │  mean  │ variance │   sd   │  min   │ max │
-| -- | ----- | ------ | -------- | ------ | ------ | --- |
+| k  | count |  mean  | variance |   sd   |  min  | max |
+| -- | ----- | ------ | -------- | ------ | ----- | --- |
 | 1  | 10000 | 93.71  |   4.77   |  2.18  | 84.00  | 100 |
 | 2  | 10000 | 92.32  |   6.80   |  2.61  | 82.67  | 100 |
 | 3  | 10000 | 94.42  |   4.88   |  2.21  | 84.00  | 100 |
