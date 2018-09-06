@@ -313,6 +313,8 @@ Methods such as cross validation is not discussed as it is not the focus of this
 
 ### Neural Network
 
+#### Optimiser Selection
+
 The [Tensorflow.js](https://js.tensorflow.org) library was used for constructing neural networks and is based the official [Getting Started](https://js.tensorflow.org/tutorials/mnist.html) article.
 
 The following layers were used to begin with:
@@ -332,14 +334,29 @@ With the exception of the number of output size (`units`) of the output layer, a
 
 As a comparison to the KNN results above, 50%-50% split was first used. Using a mean squared error loss function, 100 epochs, and a stochastic gradient descent (SGD) optimiser with a learning rate of `0.1`. Training loss remained high and appears to reach and asymptote at approximately 0.22 after at the end of 100 epochs (**Figure 1**, royal blue curve). Increasing the learning rate to 1 appears to move the model in the right direction but validation loss remained high at approximately 0.12 after 100 epochs. Similar results to those obtained with an SGD optimiser were obtained using an [ADADELTA](https://arxiv.org/abs/1212.5701) optimiser.
 
-Both the [Adam](https://arxiv.org/abs/1412.6980) and [AdaMax](https://arxiv.org/abs/1412.6980) (a variant of Adam) perform substantially better with the same **initial** setup described above, reducing the training loss to < 0.02 (**Figure 1**, orange curve).
+Both the [Adam](https://arxiv.org/abs/1412.6980) and [AdaMax](https://arxiv.org/abs/1412.6980) (a variant of Adam) perform substantially better with the same **initial** setup described above, reducing the training loss to < 0.02 (**Figure 1**, orange curve). The Adam optimiser appears to perform slightly at leats with the initial parameters and was used for subsequent training.
 
 ![Validation Loss vs. Epoch for Different Optimisers](./images/validation-loss-vs-epochs-optimisers.svg)
 
-**Figre 1**. Representative scatter plots of validation loss vs. epoch using an <span style="color: royalblue;">SGD optimiser</span> (royal blue) and an <span style="color: orange;">Adam optimiser</span> (orange).
+**Figure 1**. A representative scatter plot of validation loss vs. epoch using an SGD optimiser (royal blue) and an Adam optimiser (orange), both at a learning rate of 0.1. The training set size is 75, with equal contribution from each of the three iris species, *Iris setosa*, *Iris virginica* and *Iris versicolor*.
 
+#### Learning Rate, Epochs, and Accuracy
 
+Increasing the number of epochs to 200 while maintaining a learning rate of 0.1 leads to oscillation of training loss with an amplitude of approximately 0.01. Reduction of the learning rate to 0.05 and then further to 0.02 reduces the amplitude of the oscillation to < 0.005.
 
+A representative model was trained incrementally for 500 epochs; the corresponding training accuracy, training loss are summarised in **Figure 2**, and the validation accuracy and validation loss in **Figure 3**.
+
+![Training Accuracy and Loss for an Adam Optimiser](./images/training-accuracy-loss-adam.svg)
+
+**Figure 2**. A representative scatter plot of **training** accuracy (royal blue) and loss (dark turquoise) vs. epoch using an Adam optimiser at a learning rate of 0.02. The training set has a size of 75, with equal contribution from each of the three iris species, *Iris setosa*, *Iris virginica* and *Iris versicolor*.
+
+![Validation Accuracy and Loss for an Adam Optimiser](./images/validation-accuracy-loss-adam.svg)
+
+**Figure 3**. A representative scatter plot of **validation** accuracy (crimson) and loss (pink) vs. epoch using an Adam optimiser at a learning rate of 0.02. Both the training and validation sets have a size of 75, with equal contribution from each of the three iris species, *Iris setosa*, *Iris virginica* and *Iris versicolor*.
+
+A model typically reaches stable training and validation accuracies after approximately 50 epochs, while both training and validation loss continue to slowly decrease, there are no appreciable signs of overfitting with the parameters used over 500 iterations. It is important to note that, in our case, a predicted set of softmax probabilities is considered a true positive if the species with the highest probability matches the corresponding entry in the validation labels; for this reason, a predicted set of probabilities of `[ 0.08 0.42 0.50 ]` is considered a match for `[ 0, 0, 1 ]`.
+
+The particular example given above is deliberately "problematic" to illustrate that a high accuracy doesn't necessarily mean high confidence—which is the difference between between when validation and training accuracies have just plateaued at around 50 epochs and, say, 100 epochs later. Using a running our example, the probabilities `[ 0.08 0.42 0.50 ]` could become, for example, `[ 0.02 0.07 0.91 ]` if one continues to train the model. This reinforces the fact that training loss and validation loss are much better metrics at indicating whether or not a model is adequately trained ([related reading](https://stackoverflow.com/questions/34518656/how-to-interpret-loss-and-accuracy-for-a-machine-learning-model#34519264)).
 
 ## Documentation for dataframe.ts
 
