@@ -13,7 +13,13 @@ interface IScatterProps extends React.HTMLAttributes<HTMLDivElement> {
   xAxisLabel: string,
   yAxisLabel: string,
   xTickIntervals?: number,
-  yTickIntervals?: number
+  yTickIntervals?: number,
+  xMin?: number,
+  xMax?: number,
+  yMin?: number,
+  yMax?: number,
+  xDP?: number,
+  yDP?: number
 }
 
 // interface IXAxisLabel extends React.SVGAttributes<SVGTextElement> {
@@ -50,7 +56,12 @@ const styles = {
 };
 
 const Scatter: React.SFC<IScatterProps> = ({
-  data, title, xAxisLabel, yAxisLabel, xTickIntervals = 5, yTickIntervals = 5
+  data, title,
+  xAxisLabel, yAxisLabel,
+  xMin = data[0].x[0], xMax = data[0].x[0],
+  yMin = data[0].y[0], yMax = data[0].y[0],
+  xTickIntervals = 5, yTickIntervals = 5,
+  xDP = 1, yDP = 1
 }) => {
   // Setup
   const points: React.ReactNode[] = [];
@@ -72,10 +83,6 @@ const Scatter: React.SFC<IScatterProps> = ({
   const yPlotLengthScale = yPlotLength / 100;
 
   // Calculated values
-  let xMin: number = data[0].x[0];
-  let xMax: number = data[0].x[0];
-  let yMin: number = data[0].y[0];
-  let yMax: number = data[0].y[0];
   let xRange: number;
   let yRange: number;
 
@@ -138,7 +145,7 @@ const Scatter: React.SFC<IScatterProps> = ({
       },
       key: 'x-scale-' + i
     };
-    const xLabelValue = (xMin + i * xRange / xTickIntervals).toFixed(1);
+    const xLabelValue = (xMin + i * xRange / xTickIntervals).toFixed(xDP);
 
     xTicks.push(<line {...xTickProps} style={styles.line} />);
     xScale.push(<text {...xLabelProps}>{xLabelValue}</text>);
@@ -166,7 +173,7 @@ const Scatter: React.SFC<IScatterProps> = ({
       },
       key: 'y-scale-' + i
     };
-    const yLabelValue = (yMin + i * yRange / yTickIntervals).toFixed(1);
+    const yLabelValue = (yMin + i * yRange / yTickIntervals).toFixed(yDP);
 
     yTicks.push(<line {...yTickProps} style={styles.line} />);
     yScale.push(<text {...yLabelProps}>{yLabelValue}</text>);
