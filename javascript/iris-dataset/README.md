@@ -334,7 +334,8 @@ As a comparison to the KNN results above, 50%-50% split was first used. Using a 
 
 Both the [Adam](https://arxiv.org/abs/1412.6980) and [AdaMax](https://arxiv.org/abs/1412.6980) (a variant of Adam) perform substantially better with the same **initial** setup described above, reducing the training loss to < 0.02 (**Figure 1**, orange curve).
 
-![Validation Loss vs. Epoch for Different Optimisers](./images/validation-loss-vs-epochs-optimisers.svg)
+![Validation Loss vs. Epoch for Different Optimisers](.images/validation-loss-vs-epochs-optimisers.svg)
+
 **Figre 1**. Representative scatter plots of validation loss vs. epoch using an <span style="color: royalblue;">SGD optimiser</span> (royal blue) and an <span style="color: orange;">Adam optimiser</span> (orange).
 
 
