@@ -4,7 +4,9 @@ import styled from 'styled-components';
 interface IData {
   x: number[],
   y: number[],
-  colour?: string
+  r?: number,
+  fill?: string,
+  stroke?: string
 }
 
 interface IScatterProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -104,7 +106,7 @@ const Scatter: React.SFC<IScatterProps> = ({
   yRange = yMax - yMin;
 
   for (const subset of data) {
-    const { x, y, colour } = subset;
+    const { x, y, r: customR, fill: customFill, stroke: customStroke } = subset;
 
     for (let i = 0; i < x.length; i++) {
       const px = x[i];
@@ -115,11 +117,13 @@ const Scatter: React.SFC<IScatterProps> = ({
       const yMappedPos = (100 - bottomPadding - yPos * yPlotLengthScale);
       const cx = xMappedPos + '%';
       const cy = yMappedPos + '%';
-      const r = 4;
-      const fill = colour || 'black';
+      const r = customR || 4;
+      const fill = customFill || 'black';
+      const stroke = customStroke || 'none';
+      const key = `circle-${cx}-${cy}-${fill}-${stroke}-${i}`;
 
       points.push(
-        <circle {...{cx, cy, r, fill, key: `circle-${colour}-${i}`}} />
+        <circle {...{cx, cy, r, fill, stroke, key }} />
       );
     }
   }
