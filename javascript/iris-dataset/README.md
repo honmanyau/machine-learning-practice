@@ -13,6 +13,8 @@
   * [Statistics Parameters of the Entire Dataset](#statistics-parameters-of-the-entire-dataset)
   * [Statistics Parameters by Iris Species](#statistics-parameters-by-iris-species)
   * [Visualisation of the Entire Dataset](#visualisation-of-the-entire-dataset)
+  * [KNN](#knn)
+  * [Neural Network](#neural-network)
 * [Documentation for dataframe.ts](#documentation-for-dataframets)
 * [Scatter Chart React Component](#scatter-chart-react-component)
 
@@ -222,7 +224,26 @@ It is worth noting that since the dataset is shuffled every time the code is run
 
 ### Machine Learning with the KNN Algorithm
 
-The [KNN algorithm](https://github.com/mljs/knn) in the ml.js machine learning suite was used. Starting with a `k` value of `1`, and a 50%-50% training-validation split (random sample of all species), the accuracy (number of true positives divided by the size of the validations set) was initially observed to vary in the range of 89–97%.
+The [KNN algorithm](https://github.com/mljs/knn) in the ml.js machine learning suite was used. A custom  definition file was added to `node_modules/@type` to crudely make the library compatible with TypeScript:
+
+```
+declare module 'ml-knn' {
+  export default class KNN {
+      constructor(
+        dataset: number[][],
+        labels: any[],
+        options?: {
+          k?: number,
+          distance?: (u: number[], v: number[]) => number
+        }
+      );
+
+      public predict(dataset: any[]): number[];
+  }
+}
+```
+
+Starting with a `k` value of `1`, and a 50%-50% training-validation split (random sample of all species), the accuracy (number of true positives divided by the size of the validations set) was initially observed to vary in the range of 89–97%.
 
 Running the code for 10000 iterations (4–5 ms per iteration in Firefox Developer Edition with a 2.8 GHz Intel® Core™ i7-4558U) at `k` equals to `1` resulted in the following unique (before rounding) accuracies: **100%, 99%, 97%, 96%, 95%, 93%, 92%, 91%, 89%, 88%, 87%, 85%, 84%, 83** (it just happens to be the case that the same accuracy is not observed after rounding). A summary of the statics for 10000 iterations are as follows:
 
@@ -267,28 +288,57 @@ The accuracy of the classifier starts to decrease as `k` increases to around `9`
 
 | k  | count |  mean  | variance |   sd   |  min  | max |
 | -- | ----- | ------ | -------- | ------ | ----- | --- |
-| 1  | 10000 | 93.71  |   4.77   |  2.18  | 84.00  | 100 |
-| 2  | 10000 | 92.32  |   6.80   |  2.61  | 82.67  | 100 |
-| 3  | 10000 | 94.42  |   4.88   |  2.21  | 84.00  | 100 |
-| 4  | 10000 | 93.96  |   5.96   |  2.44  | 82.67  | 100 |
-| 5  | 10000 | 94.88  |   4.86   |  2.20  | 80.00  | 100 |
-| 6  | 10000 | 94.54  |   5.38   |  2.32  | 84.00  | 100 |
-| 7  | 10000 | 95.08  |   5.07   |  2.25  | 81.33  | 100 |
-| 8  | 10000 | 94.49  |   6.29   |  2.51  | 81.33  | 100 |
-| 9  | 10000 | 95.01  |   5.34   |  2.31  | 84.00  | 100 |
-| 10 | 10000 | 94.33  |   6.75   |  2.60  | 78.67  | 100 |
-| 11 | 10000 | 94.56  |   6.46   |  2.54  | 80.00  | 100 |
-| 12 | 10000 | 93.68  |   8.68   |  2.95  | 80.00  | 100 |
-| 13 | 10000 | 94.01  |   8.43   |  2.90  | 80.00  | 100 |
-| 14 | 10000 | 93.20  |   10.79  |  3.28  | 77.33  | 100 |
-| 15 | 10000 | 93.34  |   10.49  |  3.24  | 78.67  | 100 |
-| 16 | 10000 | 91.96  |   13.50  |  3.67  | 74.67  | 100 |
-| 17 | 10000 | 92.44  |   12.84  |  3.58  | 76.00  | 100 |
-| 18 | 10000 | 91.07  |   13.79  |  3.71  | 77.33  | 100 |
-| 19 | 10000 | 91.32  |   13.95  |  3.73  | 76.00  | 100 |
-| 20 | 10000 | 89.85  |   13.61  |  3.69  | 78.67  | 100 |
+| 1  | 10000 | 93.71  |   4.77   |  2.18  | 84.00 | 100 |
+| 2  | 10000 | 92.32  |   6.80   |  2.61  | 82.67 | 100 |
+| 3  | 10000 | 94.42  |   4.88   |  2.21  | 84.00 | 100 |
+| 4  | 10000 | 93.96  |   5.96   |  2.44  | 82.67 | 100 |
+| 5  | 10000 | 94.88  |   4.86   |  2.20  | 80.00 | 100 |
+| 6  | 10000 | 94.54  |   5.38   |  2.32  | 84.00 | 100 |
+| 7  | 10000 | 95.08  |   5.07   |  2.25  | 81.33 | 100 |
+| 8  | 10000 | 94.49  |   6.29   |  2.51  | 81.33 | 100 |
+| 9  | 10000 | 95.01  |   5.34   |  2.31  | 84.00 | 100 |
+| 10 | 10000 | 94.33  |   6.75   |  2.60  | 78.67 | 100 |
+| 11 | 10000 | 94.56  |   6.46   |  2.54  | 80.00 | 100 |
+| 12 | 10000 | 93.68  |   8.68   |  2.95  | 80.00 | 100 |
+| 13 | 10000 | 94.01  |   8.43   |  2.90  | 80.00 | 100 |
+| 14 | 10000 | 93.20  |   10.79  |  3.28  | 77.33 | 100 |
+| 15 | 10000 | 93.34  |   10.49  |  3.24  | 78.67 | 100 |
+| 16 | 10000 | 91.96  |   13.50  |  3.67  | 74.67 | 100 |
+| 17 | 10000 | 92.44  |   12.84  |  3.58  | 76.00 | 100 |
+| 18 | 10000 | 91.07  |   13.79  |  3.71  | 77.33 | 100 |
+| 19 | 10000 | 91.32  |   13.95  |  3.73  | 76.00 | 100 |
+| 20 | 10000 | 89.85  |   13.61  |  3.69  | 78.67 | 100 |
 
 Methods such as cross validation is not discussed as it is not the focus of this learning exercise, but may be added later.
+
+### Neural Network
+
+The [Tensorflow.js](https://js.tensorflow.org) library was used for constructing neural networks and is based the official [Getting Started](https://js.tensorflow.org/tutorials/mnist.html) article.
+
+The following layers were used to begin with:
+
+* **Input layer**
+  * `inputShape`: `[4]`
+  * `units`: `4`
+  * `activation`: `'sigmoid'`
+* **Hidden layer**
+  * `units`: `2`
+  * `activation`: `'sigmoid'`
+* **Output layer**
+  * `units`: `3`
+  * `activation`: `'softmax'`
+
+With the exception of the number of output size (`units`) of the output layer, all other unit sizes were arbitrarily chosen (well, [with a bit of guidance](https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw)). The [softmax](https://developers.google.com/machine-learning/glossary/#softmax) activation function is used for the output layer as it is a 3-class classification problem and a sum to unit probability is desired.
+
+As a comparison to the KNN results above, 50%-50% split was first used. Using a mean squared error loss function, 100 epochs, and a stochastic gradient descent (SGD) optimiser with a learning rate of `0.1`. Training loss remained high and appears to reach and asymptote at approximately 0.22 after at the end of 100 epochs (**Figure 1**, royal blue curve). Increasing the learning rate to 1 appears to move the model in the right direction but validation loss remained high at approximately 0.12 after 100 epochs. Similar results to those obtained with an SGD optimiser were obtained using an [ADADELTA](https://arxiv.org/abs/1212.5701) optimiser.
+
+Both the [Adam](https://arxiv.org/abs/1412.6980) and [AdaMax](https://arxiv.org/abs/1412.6980) (a variant of Adam) perform substantially better with the same **initial** setup described above, reducing the training loss to < 0.02 (**Figure 1**, orange curve).
+
+![Validation Loss vs. Epoch for Different Optimisers](./images/validation-loss-vs-epochs-optimisers.svg)
+**Figre 1**. Representative scatter plots of validation loss vs. epoch using an <span style="color: royalblue;">SGD optimiser</span> (royal blue) and an <span style="color: orange;">Adam optimiser</span> (orange).
+
+
+
 
 ## Documentation for dataframe.ts
 
@@ -296,7 +346,7 @@ The dataframe utility is a crude reinvention of some of the functionalities comm
 
 ### Usage
 
-The dataframe utility provies a function, `createDataframe`, for creating a dataframe object:
+The dataframe utility provides a function, `createDataframe`, for creating a dataframe object:
 
 ```javascript
 import { createDataframe } from './utils/dataframe';
