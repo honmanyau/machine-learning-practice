@@ -1,4 +1,3 @@
-// import KNN from 'ml-knn';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -6,6 +5,10 @@ import styled from 'styled-components';
 
 // import ml from './ml';
 // import Scatter from './Scatter';
+
+import HandwritingCanvas from './HandwritingCanvas';
+
+// import HandwritingCanvas from './HandwritingCanvas';
 
 // =============================
 // == Data for Visualisation ===
@@ -35,7 +38,7 @@ class App extends React.Component {
   public render() {
     return (
       <Container>
-        .
+        <HandwritingCanvas width="300" height="300" />
       </Container>
     );
   }
