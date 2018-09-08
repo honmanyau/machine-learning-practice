@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import irisData from './data/all';
 import { createDataframe } from './dataframe/dataframe';
 
-import ml from './ml';
+import adamTraining from './data/adam-training';
+import optimiserLoss from './data/optimiser-loss';
+
+// import ml from './ml';
 import Scatter from './Scatter';
 
 // =============================
@@ -29,7 +32,16 @@ const versicolorTransposed = versicolor.transpose();
 // == Machine Learning ===
 // =======================
 // ml.knn();
-ml.nn();
+
+// const iterations = 10;
+// const results = [];
+//
+// for (let i = 0; i < iterations; i++) {
+//   results.push(ml.nn());
+// }
+//
+// Promise.all(results).then(d => console.log(d));
+// (window as any).createDataframe = createDataframe;
 
 // ============
 // == React ===
@@ -46,7 +58,11 @@ const Container = styled.div`
 const colours = {
   setosa: 'rgba(65, 105, 225, 0.4)',
   virginica: 'rgba(35, 142, 35, 0.4)',
-  versicolor: 'rgba(255, 127, 0, 0.4)'
+  versicolor: 'rgba(255, 127, 0, 0.4)',
+  adamTrainingAccuracy: 'rgba(65, 105, 225, 1)',
+  adamTrainingLoss: 'rgba(0, 206, 209, 1)',
+  adamValidationAccuracy: 'rgba(220, 20, 60, 0.6)',
+  adamValidationLoss: 'rgba(255, 192, 203, 0.6)'
 };
 
 class App extends React.Component {
@@ -59,17 +75,17 @@ class App extends React.Component {
             {
               x: setosaTransposed['Sepal Width'],
               y: setosaTransposed['Sepal Length'],
-              colour: colours.setosa
+              fill: colours.setosa
             },
             {
               x: virginicaTransposed['Sepal Width'],
               y: virginicaTransposed['Sepal Length'],
-              colour: colours.virginica
+              fill: colours.virginica
             },
             {
               x: versicolorTransposed['Sepal Width'],
               y: versicolorTransposed['Sepal Length'],
-              colour: colours.versicolor
+              fill: colours.versicolor
             }
           ]}
           title="Sepal Length vs. Sepal Width of All Species"
@@ -82,17 +98,17 @@ class App extends React.Component {
             {
               x: setosaTransposed['Petal Length'],
               y: setosaTransposed['Sepal Length'],
-              colour: colours.setosa
+              fill: colours.setosa
             },
             {
               x: virginicaTransposed['Petal Length'],
               y: virginicaTransposed['Sepal Length'],
-              colour: colours.virginica
+              fill: colours.virginica
             },
             {
               x: versicolorTransposed['Petal Length'],
               y: versicolorTransposed['Sepal Length'],
-              colour: colours.versicolor
+              fill: colours.versicolor
             }
           ]}
           title="Sepal Length vs. Petal Length of All Species"
@@ -105,17 +121,17 @@ class App extends React.Component {
             {
               x: setosaTransposed['Petal Width'],
               y: setosaTransposed['Sepal Length'],
-              colour: colours.setosa
+              fill: colours.setosa
             },
             {
               x: virginicaTransposed['Petal Width'],
               y: virginicaTransposed['Sepal Length'],
-              colour: colours.virginica
+              fill: colours.virginica
             },
             {
               x: versicolorTransposed['Petal Width'],
               y: versicolorTransposed['Sepal Length'],
-              colour: colours.versicolor
+              fill: colours.versicolor
             }
           ]}
           title="Sepal Length vs. Petal Width of All Species"
@@ -128,17 +144,17 @@ class App extends React.Component {
             {
               x: setosaTransposed['Petal Length'],
               y: setosaTransposed['Sepal Width'],
-              colour: colours.setosa
+              fill: colours.setosa
             },
             {
               x: virginicaTransposed['Petal Length'],
               y: virginicaTransposed['Sepal Width'],
-              colour: colours.virginica
+              fill: colours.virginica
             },
             {
               x: versicolorTransposed['Petal Length'],
               y: versicolorTransposed['Sepal Width'],
-              colour: colours.versicolor
+              fill: colours.versicolor
             }
           ]}
           title="Sepal Width vs. Petal Length of All Species"
@@ -151,17 +167,17 @@ class App extends React.Component {
             {
               x: setosaTransposed['Petal Width'],
               y: setosaTransposed['Sepal Width'],
-              colour: colours.setosa
+              fill: colours.setosa
             },
             {
               x: virginicaTransposed['Petal Width'],
               y: virginicaTransposed['Sepal Width'],
-              colour: colours.virginica
+              fill: colours.virginica
             },
             {
               x: versicolorTransposed['Petal Width'],
               y: versicolorTransposed['Sepal Width'],
-              colour: colours.versicolor
+              fill: colours.versicolor
             }
           ]}
           title="Sepal Width vs. Petal Width of All Species"
@@ -174,22 +190,94 @@ class App extends React.Component {
             {
               x: setosaTransposed['Petal Width'],
               y: setosaTransposed['Petal Length'],
-              colour: colours.setosa
+              fill: colours.setosa
             },
             {
               x: virginicaTransposed['Petal Width'],
               y: virginicaTransposed['Petal Length'],
-              colour: colours.virginica
+              fill: colours.virginica
             },
             {
               x: versicolorTransposed['Petal Width'],
               y: versicolorTransposed['Petal Length'],
-              colour: colours.versicolor
+              fill: colours.versicolor
             }
           ]}
           title="Petal Length vs. Petal Width of All Species"
           xAxisLabel="Petal Width"
           yAxisLabel="Petal Length"
+        />
+
+        <Scatter
+          data={[
+            {
+              x: optimiserLoss.sgd.map((value, index) => index + 1),
+              y: optimiserLoss.sgd,
+              fill: 'royalblue'
+            },
+            {
+              x: optimiserLoss.adam.map((value, index) => index + 1),
+              y: optimiserLoss.adam,
+              fill: 'orange'
+            }
+          ]}
+          title="Validation Loss vs. Epochs with Different Optimisers"
+          xAxisLabel="Epoch"
+          yAxisLabel="Training Loss"
+          xMin={0}
+          yMin={0}
+          yMax={0.25}
+          xDP={0}
+          yDP={2}
+        />
+
+        <Scatter
+          data={[
+            {
+              x: adamTraining.set5050.accuracy.map((value, index) => index + 1),
+              y: adamTraining.set5050.accuracy,
+              fill: colours.adamTrainingAccuracy
+            },
+            {
+              x: adamTraining.set5050.validationAccuracy.map((value, index) => index + 1),
+              y: adamTraining.set5050.validationAccuracy,
+              fill: colours.adamValidationAccuracy
+            }
+          ]}
+          title="Training and Validation Accuracy for an Adam Optimiser"
+          xAxisLabel="Epoch"
+          yAxisLabel="Training Loss"
+          yTickIntervals={8}
+          xMin={0}
+          yMin={0.2}
+          yMax={1}
+          xDP={0}
+          yDP={2}
+        />
+
+        <Scatter
+          data={[
+            {
+              x: adamTraining.set5050.loss.map((value, index) => index + 1),
+              y: adamTraining.set5050.loss,
+              fill: 'none',
+              stroke: colours.adamTrainingLoss
+            },
+            {
+              x: adamTraining.set5050.validationLoss.map((value, index) => index + 1),
+              y: adamTraining.set5050.validationLoss,
+              fill: 'none',
+              stroke: colours.adamValidationLoss
+            }
+          ]}
+          title="Training and Validation Loss for an Adam Optimiser"
+          xAxisLabel="Epoch"
+          yAxisLabel="Training Loss"
+          yTickIntervals={10}
+          xMin={0}
+          yMin={0}
+          xDP={0}
+          yDP={2}
         />
       </Container>
     );
