@@ -6,6 +6,8 @@ import styled from 'styled-components';
 // import ml from './ml';
 // import Scatter from './Scatter';
 
+import store from './store';
+
 import HandwritingCanvas from './HandwritingCanvas';
 
 // import HandwritingCanvas from './HandwritingCanvas';
@@ -30,15 +32,17 @@ const Container = styled.div`
   box-shadow: 0px 0px 4px 0px #CCC;
 `;
 
-// const colours = {
-//
-// };
-
 class App extends React.Component {
+  public handleClearCanvas = (): void => {
+    store.clearCanvas();
+  };
+
   public render() {
     return (
       <Container>
         <HandwritingCanvas width="300" height="300" />
+
+        <input type="button" onClick={this.handleClearCanvas} value="Clear" />
       </Container>
     );
   }

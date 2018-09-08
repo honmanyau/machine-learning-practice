@@ -1,4 +1,7 @@
+import { observer } from 'mobx-react';
 import * as React from 'react';
+
+import store from './store';
 
 interface IMousePos {
   x: number;
@@ -27,6 +30,8 @@ class HandwritingCanvas extends React.Component<
     this.state = {
       mousedown: false
     };
+
+    store.setClearCanvas(this.clearCanvas);
   }
 
   public handleWritingStart = (
@@ -130,4 +135,4 @@ class HandwritingCanvas extends React.Component<
   }
 }
 
-export default HandwritingCanvas;
+export default observer(HandwritingCanvas);
