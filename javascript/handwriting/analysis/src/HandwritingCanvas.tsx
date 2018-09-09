@@ -10,6 +10,7 @@ interface IMousePos {
 
 const styles = {
   default: {
+    margin: 'auto',
     boxShadow: '0 0 2px 2px #CCC inset'
   }
 };
@@ -32,6 +33,7 @@ class HandwritingCanvas extends React.Component<
     };
 
     store.setClearCanvas(this.clearCanvas);
+    store.setSaveCanvas(this.saveCanvas);
   }
 
   public handleWritingStart = (
@@ -116,6 +118,24 @@ class HandwritingCanvas extends React.Component<
 
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   };
+
+  public saveCanvas = (): void => {
+    const canvas = this.canvasRef.current as HTMLCanvasElement;
+    const tCanvas = document.createElement('canvas');
+    const tCanvasContext = tCanvas.getContext('2d') as CanvasRenderingContext2D;
+    const tCanvasSize = 25;
+
+    tCanvas.width = tCanvasSize;
+    tCanvas.height = tCanvasSize;
+    tCanvasContext.drawImage(canvas, 0, 0, tCanvasSize, tCanvasSize);
+
+    store.addData({
+      imageData: tCanvasContext.getImageData(0, 0, tCanvasSize, tCanvasSize),
+      imageURI: tCanvas.toDataURL()
+    });
+
+    this.clearCanvas();
+  }
 
   public render() {
     return (
