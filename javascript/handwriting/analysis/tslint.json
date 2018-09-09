@@ -4,7 +4,8 @@
     "no-bitwise": false,
     "no-console": false,
     "object-literal-sort-keys": false,
-    "only-arrow-functions": false
+    "only-arrow-functions": false,
+    "prefer-for-of": false
   },
   "linterOptions": {
     "exclude": [
