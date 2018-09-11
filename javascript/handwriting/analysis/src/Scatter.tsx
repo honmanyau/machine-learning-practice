@@ -35,13 +35,14 @@ interface IScatterProps extends React.HTMLAttributes<HTMLDivElement> {
 // }
 
 const Container = styled.div`
-  height: 500px;
-  width: 500px;
+  height: 250px;
+  width: 250px;
+  font-size: ${18 * 250 / 500}px;
 `;
 
 const styles = {
   title: {
-    fontSize: `18px`,
+    fontSize: `1.414em`,
     textAnchor: 'middle' as 'middle'
   },
   line: {
@@ -49,9 +50,11 @@ const styles = {
     stroke: 'black'
   },
   xAxisLabel: {
+    fontSize: `1em`,
     textAnchor: 'middle' as 'middle'
   },
   yAxisLabel: {
+    fontSize: `1em`,
     textAnchor: 'middle' as 'middle',
     transform: 'rotateZ(-90deg)'
   }
@@ -63,7 +66,8 @@ const Scatter: React.SFC<IScatterProps> = ({
   xMin = data[0].x[0], xMax = data[0].x[0],
   yMin = data[0].y[0], yMax = data[0].y[0],
   xTickIntervals = 5, yTickIntervals = 5,
-  xDP = 1, yDP = 1
+  xDP = 1, yDP = 1,
+  style
 }) => {
   // Setup
   const points: React.ReactNode[] = [];
@@ -145,7 +149,8 @@ const Scatter: React.SFC<IScatterProps> = ({
       y: `${100 - bottomPadding + 4}%`,
       style: {
         textAnchor: 'middle' as 'middle',
-        transform: `translateX(${i === 0 ? 0 : -1}px)`
+        transform: `translateX(${i === 0 ? 0 : -1}px)`,
+        fontSize: '1em'
       },
       key: 'x-scale-' + i
     };
@@ -173,7 +178,8 @@ const Scatter: React.SFC<IScatterProps> = ({
       dy: '0.32em',
       style: {
         textAnchor: 'end' as 'end',
-        transform: `translateX(${i === 0 ? 0 : 1}px)`
+        transform: `translateX(${i === 0 ? 0 : 1}px)`,
+        fontSize: '1em'
       },
       key: 'y-scale-' + i
     };
@@ -209,7 +215,7 @@ const Scatter: React.SFC<IScatterProps> = ({
   };
 
   return (
-    <Container>
+    <Container style={style}>
       <svg height="100%" width="100%" fontFamily="sans-serif">
         <text {...titleProps} style={styles.title}>{title}</text>
 
