@@ -15,7 +15,7 @@ const styles = {
   }
 };
 
-class HandwritingCanvas extends React.Component<
+class InputCanvas extends React.Component<
   React.CanvasHTMLAttributes<HTMLCanvasElement>,
   React.ComponentState
 > {
@@ -155,4 +155,4 @@ class HandwritingCanvas extends React.Component<
   }
 }
 
-export default observer(HandwritingCanvas);
+export default observer(InputCanvas);
