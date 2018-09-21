@@ -15,7 +15,7 @@ describe('\ncalculateSystemProperties()', () => {
   ].join(''), () => {
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        isingModel.data[y][x].spin = 1;
+        isingModel.spins[y][x].spin = 1;
       }
     }
 
@@ -23,7 +23,7 @@ describe('\ncalculateSystemProperties()', () => {
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        expect(isingModel.data[y][x].state).toBe(4);
+        expect(isingModel.spins[y][x].state).toBe(4);
       }
     }
 
@@ -42,7 +42,7 @@ describe('\ncalculateSystemProperties()', () => {
   ].join(''), () => {
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        isingModel.data[y][x].spin = -1;
+        isingModel.spins[y][x].spin = -1;
       }
     }
 
@@ -50,7 +50,7 @@ describe('\ncalculateSystemProperties()', () => {
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        expect(isingModel.data[y][x].state).toBe(4);
+        expect(isingModel.spins[y][x].state).toBe(4);
       }
     }
 
@@ -70,10 +70,10 @@ describe('\ncalculateSystemProperties()', () => {
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
         if ((x + y) % 2 === 0) {
-          isingModel.data[x][y].spin = 1;
+          isingModel.spins[x][y].spin = 1;
         }
         else {
-          isingModel.data[x][y].spin = -1;
+          isingModel.spins[x][y].spin = -1;
         }
       }
     }
@@ -82,7 +82,7 @@ describe('\ncalculateSystemProperties()', () => {
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        expect(isingModel.data[y][x].state).toBe(-4);
+        expect(isingModel.spins[y][x].state).toBe(-4);
       }
     }
 
@@ -111,20 +111,20 @@ describe('\metropolisSweep()', () => {
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        isingModel.data[y][x].spin = 1;
-        refIsingModel.data[y][x].spin = 1;
+        isingModel.spins[y][x].spin = 1;
+        refIsingModel.spins[y][x].spin = 1;
       }
     }
 
-    isingModel.data[1][1].spin = -1;
+    isingModel.spins[1][1].spin = -1;
 
     isingModel.metropolisSweep();
     refIsingModel.calculateSystemProperties();
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        const spin = isingModel.data[y][x].spin;
-        const refSpin = refIsingModel.data[y][x].spin;
+        const spin = isingModel.spins[y][x].spin;
+        const refSpin = refIsingModel.spins[y][x].spin;
 
         expect(spin).toEqual(refSpin);
       }
@@ -149,20 +149,20 @@ describe('\metropolisSweep()', () => {
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        isingModel.data[y][x].spin = -1;
-        refIsingModel.data[y][x].spin = -1;
+        isingModel.spins[y][x].spin = -1;
+        refIsingModel.spins[y][x].spin = -1;
       }
     }
 
-    isingModel.data[1][1].spin = 1;
+    isingModel.spins[1][1].spin = 1;
 
     isingModel.metropolisSweep();
     refIsingModel.calculateSystemProperties();
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        const spin = isingModel.data[y][x].spin;
-        const refSpin = refIsingModel.data[y][x].spin;
+        const spin = isingModel.spins[y][x].spin;
+        const refSpin = refIsingModel.spins[y][x].spin;
 
         expect(spin).toEqual(refSpin);
       }
@@ -187,20 +187,20 @@ describe('\metropolisSweep()', () => {
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        isingModel.data[y][x].spin = -1;
-        refIsingModel.data[y][x].spin = -1;
+        isingModel.spins[y][x].spin = -1;
+        refIsingModel.spins[y][x].spin = -1;
       }
     }
 
-    isingModel.data[0][0].spin = -1;
+    isingModel.spins[0][0].spin = -1;
 
     isingModel.metropolisSweep();
     refIsingModel.calculateSystemProperties();
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        const spin = isingModel.data[y][x].spin;
-        const refSpin = refIsingModel.data[y][x].spin;
+        const spin = isingModel.spins[y][x].spin;
+        const refSpin = refIsingModel.spins[y][x].spin;
 
         expect(spin).toEqual(refSpin);
       }

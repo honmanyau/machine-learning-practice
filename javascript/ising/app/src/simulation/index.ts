@@ -10,7 +10,7 @@ interface IOptions {
 }
 
 class IsingModel {
-  public data: ISite[][];
+  public spins: ISite[][];
   public size: number;
   public hamiltonian: number;
   public magnetisation: number;
@@ -46,7 +46,7 @@ class IsingModel {
     let spinTotal = 0;
     let Σσiσj = 0;
 
-    this.data.forEach((row, rowIndex) => {
+    this.spins.forEach((row, rowIndex) => {
       row.forEach((site, colIndex) => {
         const siteΣσj = calculateSiteΣσj(rowIndex, colIndex);
 
@@ -62,14 +62,14 @@ class IsingModel {
 
   /**
    * This method applies the Metropolis-Hasting algorithm to every single spin
-   * in {@code this.data}. The Durstenfeld shuffling algorithm is used to
+   * in {@code this.spins}. The Durstenfeld shuffling algorithm is used to
    * randomise spin sampling as it is not entirely clear if sweeping in the same
    * order every time, simply by incrementing the row and column indicies with
    * 2 for loops, would lead to unintended bias.
    */
   public metropolisSweep = (iterations: number = 1): void => {
     for (let i = 0; i < iterations; i++) {
-      const { data, J, β } = this;
+      const { spins, J, β } = this;
       const { calculateSiteΣσj, calculateTc, calculateβ } = this;
       const rowIndicies = this.generateRandomIndicies(this.size);
 
@@ -80,7 +80,7 @@ class IsingModel {
         const colIndicies = this.generateRandomIndicies(this.size);
 
         colIndicies.forEach((colIndex) => {
-          const site = data[rowIndex][colIndex];
+          const site = spins[rowIndex][colIndex];
           const siteΣσj = calculateSiteΣσj(rowIndex, colIndex);
           const state = site.spin * siteΣσj;
           const flippedState = -site.spin * siteΣσj;
@@ -123,11 +123,11 @@ class IsingModel {
    * @returns {number} The sum of all neighbouring spins of a given site
    */
   private calculateSiteΣσj = (rowIndex: number, colIndex: number): number => {
-    const { data, mod, size } = this;
-    const σjLeft = data[rowIndex][mod(colIndex - 1, size)].spin;
-    const σjRight = data[rowIndex][mod(colIndex + 1, size)].spin;
-    const σjUp = data[mod(rowIndex - 1, size)][colIndex].spin;
-    const σjDown = data[mod(rowIndex + 1, size)][colIndex].spin;
+    const { spins, mod, size } = this;
+    const σjLeft = spins[rowIndex][mod(colIndex - 1, size)].spin;
+    const σjRight = spins[rowIndex][mod(colIndex + 1, size)].spin;
+    const σjUp = spins[mod(rowIndex - 1, size)][colIndex].spin;
+    const σjDown = spins[mod(rowIndex + 1, size)][colIndex].spin;
 
     return σjLeft + σjRight + σjUp + σjDown;
   };
@@ -141,12 +141,12 @@ class IsingModel {
 
   /**
    * This method generates a configuration with randomised spins and assign
-   * the result to {@code this.data}.
+   * the result to {@code this.spins}.
    */
   private generateInitialState = (): void => {
     // Create an array of {@code this.size} subarrays, where each subarray
     // contains the data for a site according to the interface {@code ISite}.
-    this.data = Array.from({ length: this.size }).map(() => {
+    this.spins = Array.from({ length: this.size }).map(() => {
       const row = Array.from({ length: this.size }).map(() => {
         const site: ISite = {
           spin: Math.random() < 0.5 ? 1 : -1,
